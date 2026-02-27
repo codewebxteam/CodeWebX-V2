@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100;0,200;0,300;0,400;0,700;0,900;1,100&display=swap');
+@import "tailwindcss";
+
+:root {
+  --grid-color: #1a1a1a;
+}
+
+body {
+  @apply bg-black m-0 p-0 overflow-x-hidden text-white antialiased;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Grid System */
+.bg-grid-pattern {
+  background-image:
+    linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+/* Hollow Text Effect */
+.text-outline {
+  -webkit-text-stroke: 1.5px white;
+  color: transparent;
+}
+
+/* Responsive Fix for Massive Text */
+.hero-title {
+  @apply text-[14vw] md:text-[11vw] font-black leading-[0.85] tracking-tighter uppercase text-left;
+}
