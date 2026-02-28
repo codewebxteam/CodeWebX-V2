@@ -1,15 +1,14 @@
 import React, { useEffect } from "react";
-import Navbar from "./components/Common/Navbar";
-import Footer from "./components/Common/Footer"; // Footer import kiya
-import Home from "./pages/Home";
-import Lenis from "@studio-freight/lenis"; // Premium smooth scrolling ke liye
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Lenis from "@studio-freight/lenis";
 
-/**
- * Main App component for CodeWebX Technologies.
- * 10 years experience logic: Implementing smooth scroll and global layout stability.
- */
+import Navbar from "./components/Common/Navbar";
+import Footer from "./components/Common/Footer";
+import Home from "./pages/Home";
+import Careers from "./pages/Careers";
+
 function App() {
-  // High-end smooth scroll implementation
+  // Premium smooth scroll
   useEffect(() => {
     const lenis = new Lenis({
       duration: 1.2,
@@ -32,22 +31,27 @@ function App() {
   }, []);
 
   return (
-    <div className="relative w-full bg-black selection:bg-lime-400 selection:text-black">
-      {/* Fixed Navbar */}
-      <Navbar />
+    <Router>
+      <div className="relative w-full bg-black selection:bg-lime-400 selection:text-black">
+        {/* Navbar visible on all pages */}
+        <Navbar />
 
-      {/* Main content area */}
-      <main className="relative z-10">
-        <Home />
-      </main>
+        {/* Main Routed Content */}
+        <main className="relative z-10">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/careers" element={<Careers />} />
+          </Routes>
+        </main>
 
-      {/* Final Professional Footer */}
-      <Footer />
+        {/* Footer visible on all pages */}
+        <Footer />
 
-      {/* PRO Background Aesthetic - Fixed artifacts with optimized blur */}
-      <div className="fixed top-[-10%] left-[-10%] w-[40%] h-[40%] bg-zinc-900/30 blur-[150px] rounded-full pointer-events-none z-0"></div>
-      <div className="fixed bottom-[-10%] right-[-10%] w-[30%] h-[30%] bg-lime-900/10 blur-[120px] rounded-full pointer-events-none z-0"></div>
-    </div>
+        {/* Premium Background Glow */}
+        <div className="fixed top-[-10%] left-[-10%] w-[40%] h-[40%] bg-zinc-900/30 blur-[150px] rounded-full pointer-events-none -z-10"></div>
+        <div className="fixed bottom-[-10%] right-[-10%] w-[30%] h-[30%] bg-lime-900/10 blur-[120px] rounded-full pointer-events-none -z-10"></div>
+      </div>
+    </Router>
   );
 }
 
