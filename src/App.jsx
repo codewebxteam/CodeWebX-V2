@@ -5,6 +5,7 @@ import Lenis from "@studio-freight/lenis";
 import Navbar from "./components/Common/Navbar";
 import Footer from "./components/Common/Footer";
 import Home from "./pages/Home";
+import About from "./pages/About";
 import Careers from "./pages/Careers";
 
 function App() {
@@ -41,6 +42,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/careers" element={<Careers />} />
+            <Route path="/about" element={<About/>} />
           </Routes>
         </main>
 
