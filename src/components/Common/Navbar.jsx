@@ -6,12 +6,12 @@ const Navbar = () => {
 
   const navLinks = [
     { name: "HOME", path: "/" },
-    { name: "ABOUT US", path: "#" }, 
+    { name: "ABOUT US", path: "/about" }, // Merged path from partner
     { name: "SERVICES", path: "#" },
     { name: "WORKS", path: "#" },
     { name: "CLIENTS", path: "#" },
     { name: "CAREERS", path: "/careers" }, // Careers path
-    { name: "BLOG", path: "/blog" }, // Blog path set kiya gaya
+    { name: "BLOG", path: "/blog" }, // Blog path
   ];
 
   return (
