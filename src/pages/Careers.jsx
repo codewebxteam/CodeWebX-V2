@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import CareerHero from "../components/Careers/CareerHero";
-import JobFilters from "../components/Careers/JobFilters";
 import JobCardList from "../components/Careers/JobCardList";
 import InternTestimonials from "../components/Careers/InternTestimonials";
 import CertificateVerifier from "../components/Careers/CertificateVerifier";
@@ -35,8 +34,6 @@ const Careers = () => {
             Join the <span className="text-outline italic">Force</span>
           </h2>
         </div>
-        
-        <JobFilters />
         <JobCardList />
       </section>
 
@@ -45,16 +42,6 @@ const Careers = () => {
 
       {/* 5. Testimonials - Past Interns ka Experience */}
       <InternTestimonials />
-
-      {/* Call to Action Footer (Optional) */}
-      <section className="py-32 px-6 text-center border-t border-zinc-900">
-        <h3 className="text-zinc-500 text-sm font-bold uppercase tracking-[0.3em] mb-8">
-          Not finding the right role?
-        </h3>
-        <button className="text-2xl md:text-4xl font-light hover:text-lime-400 transition-colors">
-          Send us your CV <span className="text-outline">anyway.</span>
-        </button>
-      </section>
     </div>
   );
 };

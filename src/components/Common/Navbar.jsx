@@ -1,4 +1,4 @@
-import React from "react";
+ import React from "react";
 import { Link, useLocation } from "react-router-dom"; // Navigation hooks
 
 const Navbar = () => {
@@ -6,16 +6,16 @@ const Navbar = () => {
 
   const navLinks = [
     { name: "HOME", path: "/" },
-    { name: "ABOUT US", path: "/about" }, // Merged path from partner
-    { name: "SERVICES", path: "#" },
-    { name: "WORKS", path: "#" },
-    { name: "CLIENTS", path: "#" },
-    { name: "CAREERS", path: "/careers" }, // Careers path
-    { name: "BLOG", path: "/blog" }, // Blog path
+    { name: "ABOUT US", path: "/about" }, 
+    { name: "SERVICES", path: "/services" },
+    { name: "WORKS", path: "/works" }, // Navigation set for Works page
+    { name: "CLIENTS", path: "/clients" }, // Navigation set for Clients page
+    { name: "CAREERS", path: "/careers" }, 
+    { name: "BLOG", path: "/blog" }, 
   ];
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-[100] flex items-center justify-between px-8 md:px-16 py-6 bg-black/50 backdrop-blur-sm">
+    <nav className="fixed top-0 left-0 w-full z-[100] flex items-center justify-between px-8 md:px-16 py-6 bg-black/50 backdrop-blur-md border-b border-white/5">
       {/* Logo Group */}
       <Link to="/" className="flex items-center gap-3 group">
         <div className="w-10 h-10 border-[1.5px] border-white rounded-full flex items-center justify-center rotate-[-15deg] group-hover:rotate-0 transition-transform duration-500 text-white">
@@ -50,10 +50,12 @@ const Navbar = () => {
         })}
       </div>
 
-      {/* Action Button */}
-      <button className="bg-white text-black px-7 py-2.5 rounded-full text-xs font-black tracking-wider hover:bg-zinc-200 transition-all hover:scale-105 active:scale-95">
-        Get in Touch
-      </button>
+      {/* Action Button - Direct to Contact */}
+      <Link to="/contact">
+        <button className="bg-white text-black px-7 py-2.5 rounded-full text-xs font-black tracking-wider hover:bg-zinc-200 transition-all hover:scale-105 active:scale-95">
+          Get in Touch
+        </button>
+      </Link>
     </nav>
   );
 };
