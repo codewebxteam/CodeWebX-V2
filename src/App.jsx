@@ -8,8 +8,8 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Careers from "./pages/Careers";
 import Blog from "./pages/Blog";
-import Works from "./pages/Works"; // Works page import
-import Clients from "./pages/Clients"; // Clients page import (Future-ready)
+import AllProjects from "./pages/AllProjects"; // Updated to AllProjects
+import Clients from "./pages/Clients";
 
 function App() {
   // Premium smooth scroll logic
@@ -48,8 +48,11 @@ function App() {
             <Route path="/careers" element={<Careers />} />
             <Route path="/blog" element={<Blog />} />
             
-            {/* New Routes Set Here */}
-            <Route path="/works" element={<Works />} />
+            {/* Main Navigation Route for Projects */}
+            <Route path="/allprojects" element={<AllProjects />} />
+            {/* Backward compatibility ke liye /works ko bhi yahi point kar sakte hain */}
+            <Route path="/works" element={<AllProjects />} /> 
+            
             <Route path="/clients" element={<Clients />} />
           </Routes>
         </main>

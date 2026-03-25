@@ -1,152 +1,126 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
-import {
-  ArrowUpRight,
-  Sparkles,
-  History,
-  Globe,
-  ShieldCheck,
+import { 
+  Sparkles, 
+  ArrowRight, 
+  ShieldCheck, 
+  MapPin, 
+  History 
 } from "lucide-react";
+import InquiryModal from "../Common/InquiryModal";
 
 const SinceSection = () => {
-  const brandColor = "#00a63e"; // CodeWebX Brand Green [cite: 2026-02-19]
+  const brandColor = "#00a63e"; 
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
-    <section className="relative w-full min-h-screen flex flex-col items-center justify-center px-6 md:px-16 bg-black overflow-hidden py-20">
-      {/* Background Glow - Positioned strictly for full screen center */}
-      <div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] md:w-[800px] h-[300px] md:h-[800px] blur-[120px] md:blur-[180px] rounded-full pointer-events-none opacity-20"
-        style={{ backgroundColor: brandColor }}
-      ></div>
-
-      <div className="relative z-10 w-full max-w-[1400px] grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-        {/* Left Content: The Legacy Text (Centered vertically for laptop) */}
-        <div className="flex flex-col gap-6 md:gap-8 order-2 lg:order-1 text-center lg:text-left">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            className="flex items-center justify-center lg:justify-start gap-2 px-4 py-2 bg-zinc-900/80 border border-zinc-800 rounded-md w-fit mx-auto lg:mx-0"
-          >
-            <Sparkles size={14} style={{ color: brandColor }} />
-            <span className="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-400">
-              A Decade of Innovation
-            </span>
-          </motion.div>
-
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="text-6xl sm:text-7xl md:text-8xl lg:text-[9rem] font-black tracking-tighter leading-[0.85] uppercase text-white"
-          >
-            Since <br />
-            <span className="text-outline-thin opacity-30">2013</span>
-            <span className="italic font-serif" style={{ color: brandColor }}>
-              .
-            </span>
-          </motion.h1>
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ delay: 0.4 }}
-            className="mt-4 flex flex-col md:flex-row items-center gap-8 md:gap-12"
-          >
-            <button className="group w-full md:w-auto flex items-center justify-center gap-5 bg-white text-black px-10 py-5 rounded-xl font-black text-[11px] uppercase tracking-[0.2em] hover:bg-[#00a63e] hover:text-white transition-all duration-500 shadow-2xl active:scale-95">
-              Our Journey
-              <ArrowUpRight
-                className="transition-transform group-hover:rotate-45"
-                size={18}
-              />
-            </button>
-
-            <p className="text-zinc-500 text-sm md:text-base max-w-[320px] font-light leading-relaxed tracking-tight text-center lg:text-left">
-              From a small vision in{" "}
-              <span className="text-white font-medium italic">
-                Uttar Pradesh
-              </span>{" "}
-              to a high-performance tech partner [cite: 2026-02-11]. We scale
-              legacies.
-            </p>
-          </motion.div>
+    <section className="relative w-full bg-black py-20 md:py-32 px-6 md:px-16 overflow-hidden border-b border-zinc-900">
+      
+      {/* Subtle Architectural Background */}
+      <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-[#00a63e]/5 to-transparent pointer-events-none"></div>
+      
+      <div className="max-w-[1400px] mx-auto">
+        
+        {/* --- SECTION HEADER: Compact & Refined --- */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 md:mb-24 gap-8">
+          <div className="max-w-2xl">
+            <div className="flex items-center gap-3 mb-6">
+              <History size={16} style={{ color: brandColor }} />
+              <span className="text-[10px] font-black uppercase tracking-[0.5em] text-zinc-500">
+                Established Legacy
+              </span>
+            </div>
+            <h2 className="text-4xl md:text-7xl font-light tracking-tighter text-white leading-[1.1]">
+              Engineering Growth <br />
+              <span className="font-black italic">Since Feb 2013.</span>
+            </h2>
+          </div>
+          <p className="text-zinc-500 text-xs md:text-sm font-medium max-w-xs leading-relaxed border-l-2 border-zinc-800 pl-6">
+            From our first line of code in Gorakhpur to managing <span className="text-white">500+ global entities.</span> We are the silent engine behind digital success.
+          </p>
         </div>
 
-        {/* Right Content: The Legacy Dashboard Card (Amit Bhai Style) */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8 }}
-          className="relative flex justify-center lg:justify-end order-1 lg:order-2"
-        >
-          <div className="relative w-full max-w-[350px] md:max-w-lg aspect-square bg-zinc-900/40 backdrop-blur-3xl border border-white/10 rounded-[3rem] p-10 md:p-14 flex flex-col justify-between overflow-hidden group shadow-[0_0_80px_rgba(0,0,0,0.6)]">
-            <div className="flex justify-between items-start">
-              <div className="p-4 rounded-2xl bg-black/60 border border-white/5 shadow-inner">
-                <History size={26} style={{ color: brandColor }} />
+        {/* --- GRID: STORY + STATS --- */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+          
+          {/* LEFT: Visual Legacy Element */}
+          <div className="lg:col-span-5 relative group">
+            <div className="relative aspect-[4/5] bg-zinc-900/40 rounded-[2.5rem] border border-white/5 overflow-hidden flex flex-col justify-end p-8 md:p-12 transition-all duration-700 hover:border-[#00a63e]/30">
+              
+              {/* Abstract Design Overlay */}
+              <div className="absolute top-0 left-0 w-full h-full opacity-[0.03] pointer-events-none" 
+                   style={{ backgroundImage: `radial-gradient(${brandColor} 1px, transparent 1px)`, backgroundSize: '30px 30px' }}>
               </div>
-              <Globe
-                size={36}
-                style={{ color: brandColor }}
-                className="opacity-40 group-hover:opacity-100 group-hover:rotate-[360deg] transition-all duration-1000"
-              />
-            </div>
 
-            <div className="mt-auto relative z-10">
-              <div className="flex items-center gap-4 mb-6">
-                <div className="flex -space-x-4">
-                  {[1, 2, 3].map((i) => (
-                    <div
-                      key={i}
-                      className="w-12 h-12 md:w-14 md:h-14 rounded-full border-4 border-zinc-900 bg-zinc-800 overflow-hidden shadow-2xl"
-                    >
-                      <img
-                        src={`https://i.pravatar.cc/100?img=${i + 15}`}
-                        alt="client"
-                        className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all"
-                      />
-                    </div>
-                  ))}
+              <div className="relative z-10">
+                <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center mb-8 shadow-2xl">
+                    <MapPin size={24} className="text-black" />
                 </div>
-                <span className="text-[11px] font-bold text-zinc-500 uppercase tracking-widest bg-zinc-800/50 px-3 py-1 rounded-full">
-                  +500 Clients [cite: 2026-02-23]
-                </span>
+                <h3 className="text-3xl font-black text-white uppercase tracking-tighter mb-4 leading-none">
+                    Founded in <br /> <span style={{ color: brandColor }}>Gorakhpur.</span>
+                </h3>
+                <p className="text-zinc-500 text-sm font-medium leading-relaxed">
+                    A vision that started in Uttar Pradesh, now delivering world-class engineering solutions at scale.
+                </p>
               </div>
 
-              <h2 className="text-4xl md:text-5xl font-black tracking-tighter text-white leading-tight uppercase">
-                Proven <br /> Excellence
-              </h2>
-              <div
-                className="mt-5 h-[4px] w-20 rounded-full"
-                style={{ backgroundColor: brandColor }}
-              ></div>
-            </div>
-
-            {/* Shield Decor */}
-            <div className="absolute -bottom-10 -right-10 opacity-5 group-hover:opacity-10 transition-opacity">
-              <ShieldCheck size={250} />
+              {/* Decorative Number */}
+              <div className="absolute -top-10 -right-10 text-[12rem] font-black text-white/[0.02] select-none italic">
+                13
+              </div>
             </div>
           </div>
 
-          {/* Floating Legacy Badge */}
-          <motion.div
-            animate={{ y: [0, -15, 0] }}
-            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute -top-6 -left-4 bg-white text-black py-4 px-8 rounded-2xl rotate-[-8deg] shadow-[0_30px_60px_rgba(0,0,0,0.5)] hidden sm:block border-b-8 border-zinc-200"
-          >
-            <div className="flex items-center gap-4">
-              <div
-                className="w-3 h-3 rounded-full animate-ping"
-                style={{ backgroundColor: brandColor }}
-              ></div>
-              <p className="text-[11px] font-black leading-tight uppercase tracking-tighter">
-                Operating Since <br />{" "}
-                <span style={{ color: brandColor }} className="text-xs">
-                  February 2013
-                </span>
-              </p>
+          {/* RIGHT: The Values & CTA */}
+          <div className="lg:col-span-7 flex flex-col gap-12">
+            
+            {/* Value Points */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <div className="space-y-4">
+                    <div className="flex items-center gap-3">
+                        <ShieldCheck size={18} style={{ color: brandColor }} />
+                        <h4 className="text-sm font-black uppercase tracking-widest text-white">Trust Centric</h4>
+                    </div>
+                    <p className="text-zinc-500 text-xs md:text-sm leading-relaxed">
+                        Security is not a feature; it's our foundation. We manage client data with bank-level compliance since day one.
+                    </p>
+                </div>
+                <div className="space-y-4">
+                    <div className="flex items-center gap-3">
+                        <Sparkles size={18} style={{ color: brandColor }} />
+                        <h4 className="text-sm font-black uppercase tracking-widest text-white">Innovation Driven</h4>
+                    </div>
+                    <p className="text-zinc-500 text-xs md:text-sm leading-relaxed">
+                        Transitioning from simple web apps in 2013 to high-performance AI & ERP systems in 2026.
+                    </p>
+                </div>
             </div>
-          </motion.div>
-        </motion.div>
+
+            {/* --- THE REDESIGNED CTA BAR --- */}
+            <div className="mt-8 p-10 bg-zinc-900/50 border border-white/5 rounded-[3rem] flex flex-col md:flex-row items-center justify-between gap-8 group hover:bg-zinc-900 transition-colors">
+                <div>
+                    <h5 className="text-xl font-bold text-white mb-2">Ready to evolve?</h5>
+                    <p className="text-zinc-500 text-xs uppercase tracking-widest font-black">Let's build your next chapter together.</p>
+                </div>
+                
+                <button 
+                    onClick={() => setIsModalOpen(true)}
+                    className="flex items-center gap-4 bg-white text-black px-8 py-4 rounded-xl font-black text-[10px] uppercase tracking-[0.2em] hover:bg-[#00a63e] hover:text-white transition-all duration-500 active:scale-95 whitespace-nowrap"
+                >
+                    Start a Conversation
+                    <ArrowRight size={16} />
+                </button>
+            </div>
+
+          </div>
+        </div>
       </div>
+
+      {/* --- INTEGRATED REUSABLE MODAL --- */}
+      <InquiryModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+      />
     </section>
   );
 };

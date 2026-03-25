@@ -1,91 +1,81 @@
 import React from "react";
+import { motion } from "framer-motion";
 
 const BlogHero = () => {
   const brandColor = "#00a63e"; // CodeWebX Green
 
   return (
-    // Fixed padding: pt-20 for mobile and pt-32 for desktop to align with navbar
-    <section className="relative pt-20 md:pt-32 pb-24 px-6 md:px-16 bg-black overflow-hidden">
+    // Reduced height: pb-12 and flex-col for better mobile stack
+    <section className="relative pt-20 md:pt-28 pb-12 px-6 md:px-16 bg-black overflow-hidden border-b border-white/5">
       
-      {/* 1. ADVANCED GRAPHICAL BACKDROP */}
+      {/* 1. MINIMALIST SYSTEM GRAPHICS */}
       <div className="absolute inset-0 z-0">
-        {/* Deep Texture: Grainy Gradient */}
-        <div className="absolute inset-0 opacity-[0.15] mix-blend-overlay bg-[url('https://grainy-gradients.vercel.app/noise.svg')]"></div>
+        {/* Subtle Noise Texture */}
+        <div className="absolute inset-0 opacity-[0.05] pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')]"></div>
         
-        {/* Large Kinetic Shape: Rotating Square Border */}
-        <div className="absolute -top-20 -left-20 w-[600px] h-[600px] border border-[#00a63e]/10 rounded-[100px] rotate-12 animate-spin-slow pointer-events-none"></div>
+        {/* Dynamic Scanline - Tightened range */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#00a63e]/5 to-transparent h-20 w-full animate-scan-y pointer-events-none"></div>
 
-        {/* Major Light Source: Neon Glow */}
-        <div 
-          className="absolute top-[10%] right-[-5%] w-[500px] h-[500px] blur-[180px] rounded-full opacity-30 animate-pulse"
-          style={{ backgroundColor: brandColor }}
-        ></div>
-
-        {/* Floating Measurement Grid (Architecture Feel) */}
-        <div className="absolute bottom-10 left-16 hidden lg:block opacity-20">
-          <div className="flex items-end gap-2 font-mono text-[8px] text-[#00a63e] uppercase tracking-[0.5em]">
-            <div className="h-20 w-[1px] bg-gradient-to-t from-[#00a63e] to-transparent"></div>
-            <span className="rotate-90 origin-bottom-left pb-1">Scale_Reference_v2.0</span>
+        {/* Technical Coordinate Node */}
+        <div className="absolute top-1/2 right-10 -translate-y-1/2 hidden xl:block opacity-20">
+          <div className="flex flex-col items-end gap-2 font-mono text-[9px] text-[#00a63e] tracking-[0.4em] rotate-90">
+            <span>INDEX_REF_0392</span>
+            <div className="w-32 h-[1px] bg-[#00a63e]"></div>
           </div>
         </div>
       </div>
 
       <div className="max-w-[1400px] mx-auto relative z-10">
-        <div className="flex flex-col lg:flex-row items-center lg:items-end justify-between gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           
-          {/* 2. OVERLAPPING TYPOGRAPHY */}
-          <div className="relative">
-            {/* Minimalist Tech Badge */}
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-sm border border-[#00a63e]/30 bg-[#00a63e]/5 mb-10">
-              <div className="w-1.5 h-1.5 bg-[#00a63e] rounded-full animate-ping"></div>
-              <span className="text-[9px] font-black tracking-[0.6em] uppercase text-white/60">
-                Core Systems / Open Source
+          {/* 2. CORE TITLE - Scaled for tighter height */}
+          <div className="lg:col-span-8">
+            <div className="inline-flex items-center gap-3 mb-6 bg-white/[0.03] border border-white/10 px-3 py-1 rounded-sm">
+              <span className="w-1.5 h-1.5 bg-[#00a63e] animate-pulse"></span>
+              <span className="text-[8px] md:text-[10px] font-black tracking-[0.5em] uppercase text-zinc-500">
+                Insights / Research / 026
               </span>
             </div>
 
-            <h1 className="text-7xl md:text-[13rem] font-black tracking-tighter text-white leading-[0.75] uppercase relative">
-              JOURNAL <br />
-              <div className="flex items-baseline">
-                 <span className="text-zinc-900 text-outline-thin">OF</span>
-                 <span className="ml-4 text-transparent bg-clip-text bg-gradient-to-r from-white via-[#00a63e] to-[#00a63e]">LABS</span>
-              </div>
-              
-              {/* Graphical Tag floating on Text */}
-              <div className="absolute -bottom-6 left-1/2 md:left-full md:-translate-x-full bg-white text-black px-4 py-1 text-[10px] font-black rotate-[-2deg] shadow-[10px_10px_0px_#00a63e]">
-                EST. 2026
-              </div>
+            <h1 className="text-5xl md:text-8xl lg:text-9xl font-black tracking-tighter text-white leading-none uppercase">
+              THE <span className="text-zinc-900 text-outline-thin">LAB</span> <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-[#00a63e] to-[#00a63e]">
+                JOURNAL
+              </span>
             </h1>
           </div>
 
-          {/* 3. FLOATING DATA CARD (Instead of just text) */}
-          <div className="w-full lg:w-80 relative group">
-            <div className="absolute -inset-1 bg-gradient-to-r from-[#00a63e] to-zinc-800 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-1000"></div>
-            <div className="relative bg-zinc-900/80 border border-white/10 p-8 rounded-2xl backdrop-blur-xl">
-               <div className="flex justify-between items-start mb-6">
-                  <div className="w-8 h-[2px] bg-[#00a63e]"></div>
-                  <span className="text-[8px] text-zinc-600 font-bold uppercase tracking-widest">Description_v1</span>
-               </div>
-               <p className="text-zinc-300 text-sm md:text-base font-medium leading-snug">
-                 Where complex <span className="text-[#00a63e]">algorithms</span> meet <span className="text-white italic">brutal</span> minimalism. Exploring the architecture of tomorrow.
-               </p>
-               
-               {/* Tiny Chart Graphic */}
-               <div className="mt-8 flex items-end gap-1 h-8">
-                  <div className="w-1 bg-zinc-800 h-[20%]"></div>
-                  <div className="w-1 bg-[#00a63e] h-[60%]"></div>
-                  <div className="w-1 bg-zinc-800 h-[40%]"></div>
-                  <div className="w-1 bg-white h-[90%]"></div>
-                  <div className="w-1 bg-zinc-800 h-[30%]"></div>
-               </div>
+          {/* 3. TIGHT DATA INFO (Right Aligned) */}
+          <div className="lg:col-span-4 flex flex-col lg:items-end justify-center">
+            <div className="relative p-6 border-l-2 border-[#00a63e] bg-zinc-900/20 backdrop-blur-sm max-w-sm">
+              <div className="flex items-center gap-2 mb-3">
+                 <div className="h-[1px] w-4 bg-[#00a63e]"></div>
+                 <span className="text-[8px] font-bold text-zinc-600 uppercase tracking-widest">Tech_Stream_v1.0</span>
+              </div>
+              <p className="text-zinc-400 text-xs md:text-sm font-medium leading-relaxed">
+                Exploring the <span className="text-white">architecture</span> of performance engineering and the future of <span className="text-[#00a63e]">bespoke software.</span>
+              </p>
+              
+              {/* Animated Progress Bar Decor */}
+              <div className="mt-4 w-full h-[1px] bg-zinc-800 relative overflow-hidden">
+                <div className="absolute top-0 left-0 h-full bg-[#00a63e] w-1/3 animate-progress-slide"></div>
+              </div>
             </div>
           </div>
 
         </div>
       </div>
 
-      {/* 4. SCANNER LINE ANIMATION (Bottom Decoration) */}
-      <div className="absolute bottom-0 left-0 w-full h-24 overflow-hidden pointer-events-none opacity-20">
-         <div className="w-full h-[1px] bg-[#00a63e] animate-scan-y shadow-[0_0_20px_#00a63e]"></div>
+      {/* 4. DECORATIVE CORNER DATA */}
+      <div className="absolute bottom-4 left-6 md:left-16 flex gap-6 opacity-30 pointer-events-none">
+          <div className="flex flex-col gap-1">
+            <span className="text-[7px] text-zinc-600 font-bold uppercase tracking-tighter">Status</span>
+            <span className="text-[9px] text-white font-mono uppercase tracking-widest">Sync_Active</span>
+          </div>
+          <div className="flex flex-col gap-1 border-l border-zinc-800 pl-6">
+            <span className="text-[7px] text-zinc-600 font-bold uppercase tracking-tighter">Lat</span>
+            <span className="text-[9px] text-white font-mono uppercase tracking-widest">26.7606° N</span>
+          </div>
       </div>
     </section>
   );

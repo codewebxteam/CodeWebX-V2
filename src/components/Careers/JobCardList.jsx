@@ -1,8 +1,10 @@
-import React from "react";
-import { ArrowUpRight, Zap, Clock, Globe, ChevronRight } from "lucide-react";
+import React, { useState } from "react";
+import { ArrowUpRight, Zap, Globe } from "lucide-react";
+import CareerModal from "../Common/CareerModal"; // Path check kar lein
 
 const JobCardList = () => {
   const brandColor = "#00a63e";
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const jobs = [
     { 
@@ -20,6 +22,13 @@ const JobCardList = () => {
       category: "Engineering"
     },
     { 
+      title: "Sales Executive", 
+      tech: ["Communication", "Lead Gen"], 
+      type: "Gorakhpur / On-site",
+      urgency: "High Impact",
+      category: "Business"
+    },
+    { 
       title: "Digital Marketing", 
       tech: ["Meta Ads", "SEO"], 
       type: "Hybrid",
@@ -34,7 +43,7 @@ const JobCardList = () => {
         
         {/* Header with Job Count */}
         <div className="flex items-center justify-between mb-12 border-b border-zinc-900 pb-8">
-            <h2 className="text-2xl font-bold tracking-tighter">
+            <h2 className="text-2xl font-bold tracking-tighter text-white">
                 Open <span style={{ color: brandColor }}>Positions</span>
             </h2>
             <span className="px-4 py-1 bg-zinc-900 border border-zinc-800 rounded-full text-[10px] font-black text-zinc-500 uppercase tracking-widest">
@@ -42,15 +51,16 @@ const JobCardList = () => {
             </span>
         </div>
 
-        {/* Flexible Vertical List (Eliminates Empty Grid Spaces) */}
+        {/* Flexible Vertical List */}
         <div className="flex flex-col gap-4">
           {jobs.map((job, i) => (
             <div 
               key={i} 
-              className="group relative bg-zinc-900/10 border border-white/5 rounded-3xl p-6 md:p-8 hover:bg-zinc-900/30 transition-all duration-500 flex flex-col md:flex-row md:items-center justify-between gap-6 overflow-hidden"
+              onClick={() => setIsModalOpen(true)}
+              className="group relative bg-zinc-900/10 border border-white/5 rounded-3xl p-6 md:p-8 hover:bg-zinc-900/30 transition-all duration-500 flex flex-col md:flex-row md:items-center justify-between gap-6 overflow-hidden cursor-pointer"
             >
               {/* Left Side: Title & Category */}
-              <div className="relative z-10 flex flex-col gap-2">
+              <div className="relative z-10 flex flex-col gap-2 text-left">
                 <div className="flex items-center gap-3">
                     <span className="text-[9px] font-black uppercase tracking-[0.2em]" style={{ color: brandColor }}>
                         {job.category}
@@ -65,7 +75,7 @@ const JobCardList = () => {
                 </h3>
               </div>
 
-              {/* Middle: Tech Stack (Visible on Desktop) */}
+              {/* Middle: Tech Stack */}
               <div className="hidden lg:flex items-center gap-2">
                 {job.tech.map((t, idx) => (
                     <span key={idx} className="px-4 py-1.5 bg-black/40 border border-white/5 rounded-full text-[10px] font-medium text-zinc-400">
@@ -99,7 +109,7 @@ const JobCardList = () => {
           ))}
         </div>
 
-        {/* Dynamic Empty State Support */}
+        {/* Empty State */}
         {jobs.length === 0 && (
             <div className="py-20 text-center border border-dashed border-zinc-800 rounded-[3rem]">
                 <p className="text-zinc-500 text-sm font-medium tracking-widest uppercase">
@@ -108,6 +118,12 @@ const JobCardList = () => {
             </div>
         )}
       </div>
+
+      {/* Career Modal Integration */}
+      <CareerModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+      />
     </section>
   );
 };

@@ -1,95 +1,87 @@
 import React from "react";
-import { ArrowUpRight, Zap, Target, Sparkles, Code2 } from "lucide-react";
+import { motion } from "framer-motion";
+import { ArrowDown, Zap, ShieldCheck, Cpu, Terminal } from "lucide-react";
 
 const CareerHero = () => {
-  const brandColor = "#00a63e"; // Aapka Brand Color
+  const brandColor = "#00a63e";
 
   return (
-    <section className="relative flex flex-col items-center justify-center px-6 md:px-16 bg-black overflow-hidden pt-24 md:pt-32 pb-12 md:pb-20">
+    // FIX: pt-32 for mobile and pt-48 for desktop to ensure navbar clearance
+    <section className="relative pt-32 md:pt-48 pb-12 md:pb-24 bg-black overflow-hidden border-b border-zinc-900 min-h-[65vh] md:min-h-[75vh] flex items-center">
       
-      {/* Smart Background Glow */}
-      <div 
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] md:w-[500px] h-[300px] md:h-[500px] blur-[100px] md:blur-[130px] rounded-full pointer-events-none opacity-20"
-        style={{ backgroundColor: brandColor }}
-      ></div>
-      
-      <div className="relative z-10 w-full max-w-[1400px] grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 items-center">
-        
-        {/* Left Content */}
-        <div className="flex flex-col gap-6 order-2 lg:order-1 text-center lg:text-left">
-          <div className="flex items-center justify-center lg:justify-start gap-2 px-3 py-1 bg-zinc-900/80 border border-zinc-800 rounded-md w-fit mx-auto lg:mx-0">
-            <Sparkles size={12} style={{ color: brandColor }} />
-            <span className="text-[9px] font-black uppercase tracking-[0.3em] text-zinc-400">
-              Future-Proof Your Career
-            </span>
-          </div>
-
-          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-[0.95] uppercase">
-            Work <span className="text-outline-thin opacity-50">Hard.</span> <br />
-            Ship <span className="italic font-serif" style={{ color: brandColor }}>Fast.</span>
-          </h1>
-
-          <div className="mt-2 flex flex-col md:flex-row items-center gap-8">
-            {/* Rectangular Modern CTA (Non-Circular) */}
-            <button 
-               onClick={() => document.getElementById('openings')?.scrollIntoView({ behavior: 'smooth' })}
-               className="group flex items-center gap-4 bg-white text-black px-8 py-4 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-[#00a63e] hover:text-white transition-all duration-500 shadow-xl active:scale-95"
-            >
-              Explore Openings
-              <ArrowUpRight className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" size={16} />
-            </button>
-            
-            <p className="text-zinc-500 text-xs md:text-sm max-w-[250px] font-medium leading-snug">
-              Don't just join a company. <br />
-              Join a <span className="text-white italic">High-Performance Engine</span>.
-            </p>
-          </div>
+      {/* 1. TECHNICAL BACKDROP */}
+      <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 opacity-[0.03]" 
+             style={{ backgroundImage: `linear-gradient(${brandColor} 1px, transparent 1px), linear-gradient(90deg, ${brandColor} 1px, transparent 1px)`, backgroundSize: '45px 45px' }}>
         </div>
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[500px] bg-gradient-to-b from-[#00a63e]/10 to-transparent blur-[120px] pointer-events-none"></div>
+      </div>
 
-        {/* Right Content: Dashboard Card */}
-        <div className="relative flex justify-center lg:justify-end order-1 lg:order-2 scale-90 md:scale-100">
+      <div className="max-w-[1400px] mx-auto px-6 md:px-16 relative z-10 w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           
-          <div className="relative w-full max-w-[320px] md:max-w-sm aspect-square bg-zinc-900/30 backdrop-blur-xl border border-white/10 rounded-[2.5rem] p-8 md:p-10 flex flex-col justify-between overflow-hidden group">
-             
-             <div className="flex justify-between items-start">
-                <div className="p-3 rounded-xl bg-black/40 border border-white/5">
-                    <Code2 size={20} style={{ color: brandColor }} />
-                </div>
-                <Zap size={28} style={{ color: brandColor }} className="opacity-50 group-hover:opacity-100 transition-opacity" />
-             </div>
-             
-             <div className="mt-auto">
-                <div className="flex -space-x-3 mb-5">
-                  {[1,2,3,4].map(i => (
-                    <div key={i} className="w-10 h-10 rounded-full border-2 border-black bg-zinc-800 overflow-hidden">
-                      <img src={`https://i.pravatar.cc/100?img=${i+20}`} alt="dev" className="w-full h-full object-cover" />
-                    </div>
-                  ))}
-                  <div 
-                    className="w-10 h-10 rounded-full border-2 border-black flex items-center justify-center text-white font-black text-[10px]"
-                    style={{ backgroundColor: brandColor }}
-                  >
-                    +10
-                  </div>
-                </div>
-                <h2 className="text-xl md:text-2xl font-bold tracking-tight text-white leading-tight">Elite <br/>Developer Hub</h2>
-                <div className="mt-3 h-[2px] w-10 rounded-full" style={{ backgroundColor: brandColor }}></div>
-             </div>
+          {/* 2. LEFT CONTENT: Mobile Optimized Spacing */}
+          <div className="lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-left">
+            <motion.div 
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex items-center gap-3 mb-6 bg-zinc-900/50 border border-white/5 px-4 py-1.5 rounded-full"
+            >
+              <Terminal size={12} className="text-[#00a63e]" />
+              <span className="text-[8px] md:text-[9px] font-black uppercase tracking-[0.3em] md:tracking-[0.4em] text-zinc-400">
+                System_Status: Hiring_Active
+              </span>
+            </motion.div>
 
-             <div className="absolute -bottom-6 -right-6 opacity-5">
-                <Target size={140} />
-             </div>
+            <h1 className="text-4xl md:text-7xl font-light tracking-tighter text-white leading-none uppercase mb-8">
+              Work Hard. <br />
+              <span className="font-black italic text-transparent bg-clip-text bg-gradient-to-r from-white via-[#00a63e] to-[#00a63e]">
+                Ship Fast.
+              </span>
+            </h1>
+
+            <div className="flex flex-col md:flex-row items-center gap-8 border-l-0 lg:border-l-2 border-[#00a63e]/30 lg:pl-10">
+              <p className="text-zinc-500 text-xs md:text-lg font-medium max-w-sm leading-relaxed">
+                Join a high-performance engine where your code builds 
+                <span className="text-white italic"> market-leading legacies</span>.
+              </p>
+              
+              <button 
+                onClick={() => document.getElementById('openings')?.scrollIntoView({ behavior: 'smooth' })}
+                className="group relative flex items-center gap-4 bg-white text-black px-10 py-5 rounded-xl font-black text-[10px] uppercase tracking-[0.2em] hover:bg-[#00a63e] hover:text-white transition-all duration-500 shadow-xl active:scale-95"
+              >
+                View Roles
+                <ArrowDown size={14} className="animate-bounce" />
+              </button>
+            </div>
           </div>
 
-          {/* Mentorship Badge */}
-          <div className="absolute -top-4 -left-2 bg-white text-black py-3 px-5 rounded-xl rotate-[-6deg] shadow-2xl hidden sm:block">
-             <div className="flex items-center gap-2">
-                <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: brandColor }}></div>
-                <p className="text-[9px] font-black leading-none uppercase tracking-tighter">Mentorship-First <br/> Culture</p>
-             </div>
+          {/* 3. RIGHT CONTENT: Visible only on Desktop to save vertical space on mobile */}
+          <div className="lg:col-span-5 hidden lg:flex flex-col gap-8 items-end">
+            <div className="flex items-center gap-5 p-5 bg-zinc-950 border border-white/5 rounded-2xl w-full max-w-xs transition-colors hover:border-[#00a63e]/30">
+              <div className="w-10 h-10 rounded-xl bg-zinc-900 flex items-center justify-center border border-white/5">
+                <Cpu size={18} className="text-[#00a63e]" />
+              </div>
+              <div className="text-left">
+                <span className="text-[8px] font-black text-zinc-600 uppercase tracking-widest">Environment</span>
+                <p className="text-xs font-bold text-white uppercase">Bleeding-Edge Stack</p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-5 p-5 bg-zinc-950 border border-white/5 rounded-2xl w-full max-w-xs transition-colors hover:border-[#00a63e]/30 mr-12">
+              <div className="w-10 h-10 rounded-xl bg-zinc-900 flex items-center justify-center border border-white/5">
+                <Zap size={18} className="text-[#00a63e]" />
+              </div>
+              <div className="text-left">
+                <span className="text-[8px] font-black text-zinc-600 uppercase tracking-widest">Culture</span>
+                <p className="text-xs font-bold text-white uppercase">Fast-Cycle Shipping</p>
+              </div>
+            </div>
           </div>
         </div>
 
+        {/* 4. SCANNER LINE */}
+        <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#00a63e]/20 to-transparent"></div>
       </div>
     </section>
   );

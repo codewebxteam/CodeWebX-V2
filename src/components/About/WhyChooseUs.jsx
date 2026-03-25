@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import {
   Plus,
@@ -10,15 +10,17 @@ import {
   ShieldCheck,
   Rocket,
 } from "lucide-react";
+import InquiryModal from "../Common/InquiryModal"; // Path check kar lein
 
 const WhyChooseUs = () => {
   const brandColor = "#00a63e"; // CodeWebX Brand Green
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const stats = [
     { label: "Years of Building", value: "13+" },
-    { label: "Quality Websites Delivered", value: "1000+" },
-    { label: "Mobile Apps Delivered", value: "100+" },
-    { label: "Satisfied & Retention", value: "100%" },
+    { label: "Websites Delivered", value: "1000+" },
+    { label: "Mobile Apps", value: "100+" },
+    { label: "Client Retention", value: "100%" },
   ];
 
   const features = [
@@ -57,7 +59,8 @@ const WhyChooseUs = () => {
   return (
     <section className="bg-black text-white py-16 md:py-24 px-6 md:px-16 overflow-hidden">
       <div className="max-w-[1400px] mx-auto">
-        {/* --- STATS GRID (FAQ Styled) --- */}
+        
+        {/* --- STATS GRID --- */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 mb-20 border-b border-zinc-900/50 pb-12">
           {stats.map((stat, idx) => (
             <div key={idx} className="flex flex-col gap-1">
@@ -71,7 +74,7 @@ const WhyChooseUs = () => {
           ))}
         </div>
 
-        {/* --- HEADER: GREEN ACCENT APPLIED --- */}
+        {/* --- HEADER --- */}
         <div className="flex flex-col lg:flex-row justify-between items-start gap-10 mb-20">
           <div className="lg:w-2/3">
             <div className="flex items-center gap-3 mb-6">
@@ -82,7 +85,6 @@ const WhyChooseUs = () => {
             </div>
             <h2 className="text-5xl md:text-7xl font-ultra-thin tracking-tighter leading-[1.1] text-white">
               Built for <br />
-              {/* Green Accent Applied Here */}
               <span className="italic font-light" style={{ color: brandColor }}>
                 Business Growth.
               </span>
@@ -92,9 +94,14 @@ const WhyChooseUs = () => {
           <div className="lg:w-1/3 flex flex-col items-start lg:items-end gap-8">
             <p className="text-zinc-500 text-lg md:text-xl font-light leading-snug lg:text-right max-w-sm">
               We use experience and clear execution to deliver results that move
-              businesses forward [cite: 2026-02-11].
+              businesses forward.
             </p>
-            <button className="group flex items-center gap-4 bg-white text-black px-8 py-4 rounded-full transition-all hover:scale-105 active:scale-95">
+            
+            {/* UPDATED BUTTON: Now triggers InquiryModal */}
+            <button 
+              onClick={() => setIsModalOpen(true)}
+              className="group flex items-center gap-4 bg-white text-black px-8 py-4 rounded-full transition-all hover:scale-105 active:scale-95"
+            >
               <Plus
                 size={16}
                 className="group-hover:rotate-90 transition-transform duration-500"
@@ -106,7 +113,7 @@ const WhyChooseUs = () => {
           </div>
         </div>
 
-        {/* --- FEATURES GRID: Glassmorphism --- */}
+        {/* --- FEATURES GRID --- */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {features.map((feature, idx) => (
             <motion.div
@@ -136,6 +143,12 @@ const WhyChooseUs = () => {
           ))}
         </div>
       </div>
+
+      {/* --- INTEGRATED REUSABLE MODAL --- */}
+      <InquiryModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+      />
     </section>
   );
 };

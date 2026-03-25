@@ -1,27 +1,23 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Plus, Minus } from "lucide-react";
+import { Plus, Minus, HelpCircle } from "lucide-react";
 
 const faqs = [
   {
-    question: "What services does CodeWebX Technologies specialize in?",
-    answer:
-      "We specialize in mobile app development, custom software solutions, high-performance website development using React and Vite, UI/UX design, and data-driven digital marketing tailored for business growth.",
+    question: "What services does CodeWebX specialize in?",
+    answer: "We specialize in mobile app development, custom software solutions, high-performance websites (React/Vite), UI/UX, and digital marketing.",
   },
   {
     question: "How do I start a project with your team?",
-    answer:
-      "Starting is simple. You can connect with us via the 'Let's Connect' button. Our team will then reach out to discuss your requirements, create a roadmap, and provide a comprehensive project proposal.",
+    answer: "Just tap 'Let's Connect'. We'll discuss your vision, build a roadmap, and provide a full proposal.",
   },
   {
-    question: "What makes CodeWebX a trusted app development company?",
-    answer:
-      "With a dedicated team of experts and a proven track record in Gorakhpur and Basti, we focus on scalability, clean code architecture, and transparent communication, ensuring your tech product stands out in the market.",
+    question: "Is CodeWebX a trusted app development company?",
+    answer: "Yes. Our focus on clean architecture and transparent communication in UP ensures top-tier product delivery.",
   },
   {
-    question: "Do you provide post-launch support and maintenance?",
-    answer:
-      "Yes, we believe in long-term partnerships. We provide end-to-end support, including server management, regular updates, and feature enhancements to keep your application running smoothly.",
+    question: "Do you provide post-launch support?",
+    answer: "Absolutely. We handle server management, regular updates, and feature scaling long after launch.",
   },
 ];
 
@@ -30,27 +26,22 @@ const FAQItem = ({ faq, isOpen, toggle }) => {
     <div className="border-b border-zinc-100 last:border-none">
       <button
         onClick={toggle}
-        className="w-full py-8 flex items-center justify-between text-left group transition-all"
+        // Mobile-first: py-5 on mobile, py-8 on desktop
+        className="w-full py-5 md:py-8 flex items-center justify-between text-left group transition-all"
       >
         <span
-          className={`text-xl md:text-2xl font-light tracking-tight transition-colors duration-300 ${isOpen ? "text-black font-medium" : "text-zinc-500 group-hover:text-black"}`}
+          className={`text-base md:text-xl font-bold tracking-tight transition-colors duration-300 ${isOpen ? "text-[#00a63e]" : "text-zinc-600 group-hover:text-black"}`}
         >
           {faq.question}
         </span>
         <div className="flex-shrink-0 ml-4">
-          {isOpen ? (
-            <Minus
-              size={24}
-              strokeWidth={1.5}
-              className="text-black transition-transform duration-500 rotate-180"
-            />
-          ) : (
-            <Plus
-              size={24}
-              strokeWidth={1.5}
-              className="text-zinc-400 group-hover:text-black transition-transform duration-500"
-            />
-          )}
+          <div className={`w-7 h-7 md:w-8 md:h-8 rounded-full border ${isOpen ? 'bg-black border-black' : 'border-zinc-200'} flex items-center justify-center transition-all`}>
+            {isOpen ? (
+              <Minus size={12} className="text-white" />
+            ) : (
+              <Plus size={12} className="text-zinc-400 group-hover:text-black" />
+            )}
+          </div>
         </div>
       </button>
 
@@ -60,10 +51,10 @@ const FAQItem = ({ faq, isOpen, toggle }) => {
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.5, ease: [0.04, 0.62, 0.23, 0.98] }}
+            transition={{ duration: 0.3, ease: "circOut" }}
             className="overflow-hidden"
           >
-            <p className="pb-10 text-zinc-400 text-lg font-light leading-relaxed max-w-4xl">
+            <p className="pb-5 md:pb-8 text-zinc-500 text-xs md:text-base font-medium leading-relaxed max-w-3xl">
               {faq.answer}
             </p>
           </motion.div>
@@ -74,29 +65,31 @@ const FAQItem = ({ faq, isOpen, toggle }) => {
 };
 
 const FAQSection = () => {
-  const [openIndex, setOpenIndex] = useState(0); // Default first one open
+  const [openIndex, setOpenIndex] = useState(0);
 
   return (
-    <section className="bg-white py-24 md:py-32 px-6 md:px-16 text-black">
-      <div className="max-w-[1400px] mx-auto flex flex-col lg:flex-row gap-20">
-        {/* Left Side: Label based on SS */}
+    // Mobile py-10, Desktop py-20
+    <section className="bg-white py-10 md:py-20 px-5 md:px-16 text-black border-t border-zinc-50">
+      <div className="max-w-[1400px] mx-auto flex flex-col lg:flex-row gap-6 md:gap-20">
+        
+        {/* Left Side: Tactical Label */}
         <div className="lg:w-1/4">
-          <div className="flex items-center gap-4 sticky top-32">
-            <div className="w-0 h-0 border-t-[5px] border-t-transparent border-l-[8px] border-l-lime-500 border-b-[5px] border-b-transparent"></div>
-            <span className="text-[11px] font-black uppercase tracking-[0.5em] text-zinc-400">
-              FAQ Section
+          <div className="flex items-center gap-2 md:sticky md:top-32">
+            <HelpCircle size={14} className="text-[#00a63e]" />
+            <span className="text-[8px] md:text-[9px] font-black uppercase tracking-[0.4em] text-zinc-400">
+              SUPPORT / FAQ
             </span>
           </div>
         </div>
 
         {/* Right Side: Content Area */}
         <div className="lg:w-3/4">
-          <h2 className="text-5xl md:text-7xl font-ultra-thin tracking-tighter leading-tight mb-20 text-black">
-            Have more questions? <br />
-            <span className="italic font-light text-zinc-300">
-              we've answers
-            </span>
-          </h2>
+          <div className="mb-6 md:mb-16">
+            <h2 className="text-3xl md:text-6xl font-black tracking-tighter leading-none text-black uppercase">
+              Common <br className="hidden md:block" />
+              <span className="text-zinc-300 italic">Queries.</span>
+            </h2>
+          </div>
 
           <div className="flex flex-col">
             {faqs.map((faq, index) => (

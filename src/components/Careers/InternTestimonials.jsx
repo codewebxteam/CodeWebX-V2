@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { Quote, Sparkles, MoveRight, ChevronRight, ChevronLeft } from "lucide-react";
+import CareerModal from "../Common/CareerModal"; // Path check kar lein
 
 const InternTestimonials = () => {
   const brandColor = "#00a63e";
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Dynamic Reviews for Left Side
   const dynamicReviews = [
@@ -52,7 +54,7 @@ const InternTestimonials = () => {
     <section className="relative py-12 md:py-32 bg-black overflow-hidden">
       <div className="max-w-[1400px] mx-auto px-6 md:px-16">
         
-        {/* Header Section: Reduced Margins for Mobile */}
+        {/* Header Section */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 md:mb-20 gap-6">
           <div className="max-w-2xl">
             <div className="flex items-center gap-3 mb-4 md:mb-6">
@@ -77,21 +79,21 @@ const InternTestimonials = () => {
           {/* LEFT: Dynamic Testimonial Container */}
           <div className="md:col-span-7 group relative p-8 md:p-16 bg-zinc-900/20 border border-white/5 rounded-[2rem] md:rounded-[3rem] flex flex-col justify-between overflow-hidden min-h-[400px] md:min-h-[500px]">
             
-            <div className="relative z-10">
+            <div className="relative z-10 text-left">
               <Quote size={40} style={{ color: brandColor }} className="opacity-20 mb-8 md:mb-10" />
               
               {/* Animated Content Switcher */}
-              <div key={activeIndex} className="animate-in fade-in slide-in-from-right-4 duration-500">
-                <p className="text-xl md:text-4xl font-light text-white leading-tight mb-12 md:mb-16 italic">
+              <div key={activeIndex} className="animate-in fade-in slide-in-from-right-4 duration-500 text-left">
+                <p className="text-xl md:text-4xl font-light text-white leading-tight mb-12 md:mb-16 italic text-left">
                   "{dynamicReviews[activeIndex].text}"
                 </p>
                 
                 <div className="flex items-center justify-between border-t border-white/5 pt-8 md:pt-10">
                     <div className="flex items-center gap-4 md:gap-5">
                         <img src={dynamicReviews[activeIndex].img} alt={dynamicReviews[activeIndex].name} className="w-12 h-12 md:w-16 md:h-16 rounded-full border-2 border-white/10 object-cover" />
-                        <div>
-                            <h4 className="text-lg md:text-xl font-bold text-white">{dynamicReviews[activeIndex].name}</h4>
-                            <p className="text-[10px] font-black text-zinc-500 uppercase tracking-widest">{dynamicReviews[activeIndex].role}</p>
+                        <div className="text-left">
+                            <h4 className="text-lg md:text-xl font-bold text-white text-left">{dynamicReviews[activeIndex].name}</h4>
+                            <p className="text-[10px] font-black text-zinc-500 uppercase tracking-widest text-left">{dynamicReviews[activeIndex].role}</p>
                         </div>
                     </div>
                     <div className="text-right hidden sm:block">
@@ -116,38 +118,47 @@ const InternTestimonials = () => {
           {/* RIGHT: Static Reviews & CTA */}
           <div className="md:col-span-5 flex flex-col gap-4 md:gap-8">
             
-            {/* 1 Static Review Card */}
+            {/* Static Review Cards */}
             {staticReviews.map((item, i) => (
-                <div key={i} className="group p-6 md:p-10 bg-zinc-900/20 border border-white/5 rounded-[2rem] hover:bg-zinc-900/40 transition-all duration-700 relative overflow-hidden">
-                    <p className="text-base md:text-xl font-light text-zinc-300 leading-relaxed mb-8 italic">
+                <div key={i} className="group p-6 md:p-10 bg-zinc-900/20 border border-white/5 rounded-[2rem] hover:bg-zinc-900/40 transition-all duration-700 relative overflow-hidden text-left">
+                    <p className="text-base md:text-xl font-light text-zinc-300 leading-relaxed mb-8 italic text-left">
                         "{item.text}"
                     </p>
                     <div className="flex items-center gap-4">
                         <img src={item.img} alt={item.name} className="w-10 h-10 rounded-full grayscale group-hover:grayscale-0 transition-all object-cover" />
-                        <div>
-                            <h4 className="text-sm font-bold text-white">{item.name}</h4>
-                            <p className="text-[9px] font-black text-zinc-600 uppercase tracking-widest">{item.role}</p>
+                        <div className="text-left">
+                            <h4 className="text-sm font-bold text-white text-left">{item.name}</h4>
+                            <p className="text-[9px] font-black text-zinc-600 uppercase tracking-widest text-left">{item.role}</p>
                         </div>
                     </div>
                     <div className="absolute right-0 top-0 h-full w-[2px] bg-[#00a63e] opacity-0 group-hover:opacity-100 transition-opacity"></div>
                 </div>
             ))}
 
-            {/* Final CTA Card */}
-            <div className="flex-grow p-8 md:p-10 bg-[#00a63e] rounded-[2rem] flex flex-col justify-between group cursor-pointer active:scale-95 transition-all min-h-[200px]">
-                <h4 className="text-2xl font-black text-white uppercase leading-none tracking-tighter">
+            {/* Final CTA Card - Now Integrated with CareerModal */}
+            <button 
+                onClick={() => setIsModalOpen(true)}
+                className="flex-grow p-8 md:p-10 bg-[#00a63e] rounded-[2rem] flex flex-col justify-between group cursor-pointer active:scale-95 transition-all min-h-[200px] w-full border-none text-left"
+            >
+                <h4 className="text-2xl md:text-4xl font-black text-white uppercase leading-none tracking-tighter text-left">
                     Ready to <br /> write yours?
                 </h4>
-                <div className="flex justify-between items-end mt-4">
-                    <span className="text-[9px] font-black text-black/60 uppercase tracking-widest">Join the squad</span>
-                    <MoveRight className="text-white group-hover:translate-x-2 transition-transform" />
+                <div className="flex justify-between items-end mt-4 w-full">
+                    <span className="text-[9px] md:text-[11px] font-black text-black/60 uppercase tracking-widest">Join the squad</span>
+                    <MoveRight className="text-white group-hover:translate-x-2 transition-transform" size={24} />
                 </div>
-            </div>
+            </button>
 
           </div>
         </div>
 
       </div>
+
+      {/* REUSABLE CAREER MODAL */}
+      <CareerModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+      />
     </section>
   );
 };

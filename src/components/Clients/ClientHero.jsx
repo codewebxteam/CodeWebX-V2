@@ -1,80 +1,104 @@
 import React from "react";
-import { Globe, Users, ShieldCheck } from "lucide-react";
+import { motion } from "framer-motion";
+import { ShieldCheck, Globe, Activity, Cpu, Zap, Radio } from "lucide-react";
 
 const ClientHero = () => {
   const brandColor = "#00a63e";
 
   return (
-    <section className="relative h-[70vh] md:h-[80vh] flex items-center justify-center pt-20 bg-black overflow-hidden">
+    // FIX: Added pt-32 (Mobile) and md:pt-40 (Desktop) for Navbar safety. 
+    // Reduced overall py (padding-vertical) to keep height tight.
+    <section className="relative w-full pt-32 md:pt-40 pb-12 md:pb-20 bg-black overflow-hidden border-b border-zinc-900 flex items-center">
       
-      {/* 1. Graphical Connectors (Abstract Lines) */}
-      <svg className="absolute inset-0 w-full h-full opacity-20 pointer-events-none">
-        <defs>
-          <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="transparent" />
-            <stop offset="50%" stopColor={brandColor} />
-            <stop offset="100%" stopColor="transparent" />
-          </linearGradient>
-        </defs>
-        <path d="M-100,200 Q400,100 800,400 T1800,200" fill="none" stroke="url(#lineGrad)" strokeWidth="0.5" />
-        <path d="M-100,500 Q600,300 1000,600 T2000,400" fill="none" stroke="url(#lineGrad)" strokeWidth="0.5" />
-      </svg>
+      {/* --- LAYER 1: GRID & LIGHT BEAM --- */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <div className="absolute inset-0 opacity-[0.03]" 
+             style={{ backgroundImage: `linear-gradient(${brandColor} 1px, transparent 1px), linear-gradient(90deg, ${brandColor} 1px, transparent 1px)`, backgroundSize: '40px 40px' }}>
+        </div>
+      </div>
 
-      {/* 2. Floating Graphical Nodes */}
-      <div className="absolute top-1/4 left-10 md:left-32 animate-pulse hidden md:block">
-        <div className="flex items-center gap-3 bg-zinc-900/80 border border-white/10 p-3 rounded-2xl backdrop-blur-xl">
-          <Globe size={18} className="text-[#00a63e]" />
-          <div className="flex flex-col">
-            <span className="text-[8px] text-zinc-500 font-bold uppercase">Network</span>
-            <span className="text-[10px] text-white font-black tracking-widest">GLOBAL</span>
+      <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-16 w-full">
+        
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+          
+          {/* --- LEFT: REFINED CONTENT (No Massive Text) --- */}
+          <div className="lg:col-span-7 flex flex-col items-start text-left">
+            <motion.div 
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="flex items-center gap-3 px-3 py-1 rounded-full border border-zinc-800 bg-zinc-900/30 mb-6"
+            >
+              <Radio size={10} className="text-[#00a63e] animate-pulse" />
+              <span className="text-[8px] font-black uppercase tracking-[0.3em] text-zinc-500">Network Status: Online</span>
+            </motion.div>
+
+            <h1 className="text-4xl md:text-6xl font-black text-white tracking-tighter uppercase leading-[1.1] mb-6">
+              Engineering <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-zinc-400 to-[#00a63e]">
+                Global Dominance.
+              </span>
+            </h1>
+
+            <div className="flex flex-col md:flex-row items-start md:items-center gap-8">
+                <p className="text-zinc-500 text-xs md:text-sm max-w-sm font-medium leading-relaxed border-l-2 border-[#00a63e] pl-5">
+                    Connecting Gorakhpur’s ambition with high-performance <span className="text-white italic">engineering horsepower.</span>
+                </p>
+                
+                {/* Compact Client Stack */}
+                <div className="flex -space-x-2">
+                    {[1,2,3].map(i => (
+                        <div key={i} className="w-10 h-10 rounded-full border-2 border-black bg-zinc-900 overflow-hidden shadow-xl">
+                            <img src={`https://i.pravatar.cc/100?img=${i+15}`} alt="client" className="w-full h-full object-cover grayscale" />
+                        </div>
+                    ))}
+                    <div className="w-10 h-10 rounded-full border-2 border-black bg-[#00a63e] flex items-center justify-center text-[8px] font-black text-white">
+                        50+
+                    </div>
+                </div>
+            </div>
           </div>
-        </div>
-      </div>
 
-      <div className="absolute bottom-1/4 right-10 md:right-32 animate-bounce-slow hidden md:block">
-        <div className="flex items-center gap-3 bg-zinc-900/80 border border-white/10 p-3 rounded-2xl backdrop-blur-xl">
-          <Users size={18} className="text-[#00a63e]" />
-          <div className="flex flex-col">
-            <span className="text-[8px] text-zinc-500 font-bold uppercase">Partners</span>
-            <span className="text-[10px] text-white font-black tracking-widest">50+ SCALE</span>
+          {/* --- RIGHT: TACTICAL METRICS (Tight & Clean) --- */}
+          <div className="lg:col-span-5 grid grid-cols-1 gap-4">
+            {/* Node: Security */}
+            <div className="flex items-center gap-4 p-4 bg-zinc-900/20 border border-white/5 rounded-2xl backdrop-blur-md transition-all hover:border-[#00a63e]/30">
+              <div className="p-2.5 bg-black/40 rounded-xl border border-white/5">
+                <ShieldCheck size={18} className="text-[#00a63e]" />
+              </div>
+              <div className="flex flex-col">
+                 <span className="text-[8px] font-black text-zinc-500 uppercase tracking-widest">Protocol</span>
+                 <span className="text-xs font-bold text-white uppercase tracking-tight">Enterprise Security</span>
+              </div>
+            </div>
+
+            {/* Node: Speed */}
+            <div className="flex items-center gap-4 p-4 bg-zinc-900/20 border border-white/5 rounded-2xl backdrop-blur-md transition-all hover:border-[#00a63e]/30 md:ml-8">
+              <div className="p-2.5 bg-black/40 rounded-xl border border-white/5">
+                <Zap size={18} className="text-[#00a63e]" />
+              </div>
+              <div className="flex flex-col">
+                 <span className="text-[8px] font-black text-zinc-500 uppercase tracking-widest">Velocity</span>
+                 <span className="text-xs font-bold text-white uppercase tracking-tight">Zero Lag Performance</span>
+              </div>
+            </div>
+
+            {/* Node: Global */}
+            <div className="flex items-center gap-4 p-4 bg-zinc-900/20 border border-white/5 rounded-2xl backdrop-blur-md transition-all hover:border-[#00a63e]/30">
+              <div className="p-2.5 bg-black/40 rounded-xl border border-white/5">
+                <Globe size={18} className="text-[#00a63e]" />
+              </div>
+              <div className="flex flex-col">
+                 <span className="text-[8px] font-black text-zinc-500 uppercase tracking-widest">Network</span>
+                 <span className="text-xs font-bold text-white uppercase tracking-tight">Worldwide Scalability</span>
+              </div>
+            </div>
           </div>
+
         </div>
       </div>
 
-      {/* 3. Main Content Wrapper */}
-      <div className="max-w-[1200px] mx-auto text-center relative z-10 px-6">
-        
-        {/* Compact Badge */}
-        <div className="inline-flex items-center gap-3 px-3 py-1.5 rounded-full border border-zinc-800 bg-zinc-950/50 mb-6">
-          <div className="w-1.5 h-1.5 rounded-full bg-[#00a63e]"></div>
-          <span className="text-[9px] font-black uppercase tracking-[0.3em] text-zinc-400">Client Ecosystem</span>
-        </div>
-        
-        {/* Graphical Typography */}
-        <h1 className="text-5xl md:text-8xl font-black text-white tracking-tighter uppercase leading-[0.85]">
-          Global <span className="relative">
-            Trust.
-            <span className="absolute -bottom-2 left-0 w-full h-1 bg-[#00a63e]/30 blur-sm"></span>
-          </span>
-          <br /> 
-          <span className="text-zinc-600 italic">Local Impact.</span>
-        </h1>
-        
-        {/* Smart Graphic Divider */}
-        <div className="flex justify-center items-center gap-4 my-8">
-           <div className="h-[1px] w-12 bg-zinc-800"></div>
-           <ShieldCheck size={20} className="text-zinc-700" />
-           <div className="h-[1px] w-12 bg-zinc-800"></div>
-        </div>
-
-        <p className="text-zinc-500 text-sm md:text-lg max-w-xl mx-auto font-medium leading-relaxed">
-          Connecting <span className="text-white">Gorakhpur's</span> ambition with world-class <span className="text-white">engineering</span>. We don't just work for you, we evolve with you.
-        </p>
-
-      </div>
-
-      {/* Background Radial Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#00a63e]/5 blur-[100px] rounded-full -z-10"></div>
+      {/* Subtle Glow - Positioned strictly to avoid vertical bloat */}
+      <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-[#00a63e]/5 blur-[100px] rounded-full pointer-events-none"></div>
     </section>
   );
 };
