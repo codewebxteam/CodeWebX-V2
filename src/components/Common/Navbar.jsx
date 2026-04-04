@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { 
   Menu, X, ArrowUpRight, 
   Home, User, Cpu, Layers, 
-  Users, Zap 
+  Users, Zap, Briefcase 
 } from "lucide-react";
 import InquiryModal from "../Common/InquiryModal";
 
@@ -19,6 +19,7 @@ const Navbar = () => {
     { name: "SERVICES", path: "/services", icon: <Cpu size={16} />, color: "text-emerald-500" },
     { name: "WORKS", path: "/works", icon: <Layers size={16} />, color: "text-purple-500" },
     { name: "CLIENTS", path: "/clients", icon: <Users size={18} />, color: "text-rose-500" },
+    { name: "CAREERS", path: "/careers", icon: <Briefcase size={16} />, color: "text-amber-500" }, // Wapas add kiya
     { name: "BLOG", path: "/blog", icon: <Zap size={16} />, color: "text-yellow-400" }, 
   ];
 
@@ -46,15 +47,15 @@ const Navbar = () => {
           </div>
         </Link>
 
-        {/* --- DESKTOP NAVIGATION (Horizontal & Icon-less) --- */}
-        <div className="hidden lg:flex items-center gap-8">
+        {/* --- DESKTOP NAVIGATION --- */}
+        <div className="hidden lg:flex items-center gap-7">
           {navLinks.map((link) => {
             const isActive = location.pathname === link.path;
             return (
               <Link
                 key={link.name}
                 to={link.path}
-                className={`text-[11px] font-bold tracking-[0.2em] transition-all duration-300 pb-1 
+                className={`text-[10px] font-bold tracking-[0.2em] transition-all duration-300 pb-1 
                   ${isActive 
                     ? "text-[#00a63e] border-b border-[#00a63e]" 
                     : "text-zinc-500 hover:text-white"
@@ -68,15 +69,13 @@ const Navbar = () => {
 
         {/* --- ACTION BUTTON & TOGGLE --- */}
         <div className="flex items-center gap-4 relative z-[120]">
-          {/* Desktop Only Button */}
           <button 
             onClick={() => setIsInquiryOpen(true)}
-            className="hidden lg:block bg-white text-black px-6 py-2.5 rounded-full text-[10px] font-black tracking-wider hover:bg-[#00a63e] hover:text-white transition-all active:scale-95 shadow-lg"
+            className="hidden lg:block bg-white text-black px-5 py-2.5 rounded-full text-[9px] font-black tracking-wider hover:bg-[#00a63e] hover:text-white transition-all active:scale-95 shadow-lg"
           >
             GET IN TOUCH
           </button>
 
-          {/* Hamburger Icon (Phone Only) */}
           <button 
             onClick={() => setIsOpen(!isOpen)}
             className="lg:hidden text-white w-9 h-9 flex items-center justify-center bg-white/5 rounded-full border border-white/10"
@@ -86,7 +85,7 @@ const Navbar = () => {
         </div>
       </nav>
 
-      {/* --- COMPACT MOBILE OVERLAY (Touched Nothing Here) --- */}
+      {/* --- MOBILE OVERLAY --- */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -114,7 +113,7 @@ const Navbar = () => {
                 >
                   <Link
                     to={link.path}
-                    className="flex items-center justify-between py-2.5 group border-b border-white/[0.03]"
+                    className="flex items-center justify-between py-2 group border-b border-white/[0.03]"
                   >
                     <div className="flex items-center gap-4">
                       <div className={`p-2 rounded-lg bg-white/5 ${link.color} group-active:scale-95 transition-transform`}>

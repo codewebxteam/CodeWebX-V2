@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { X, Send, CheckCircle, Briefcase, GraduationCap, Link as LinkIcon, Phone, User, Mail, ChevronDown } from "lucide-react";
+// Firebase Imports
+import { db } from "../../firebase"; 
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
 const CareerModal = ({ isOpen, onClose }) => {
   const brandColor = "#00a63e";
@@ -12,14 +15,11 @@ const CareerModal = ({ isOpen, onClose }) => {
 
   const roles = ["Frontend Developer", "Backend Developer", "Full Stack Developer", "UI/UX Designer", "Digital Marketer", "Sales Executive"];
 
-  // --- PREVENT BACKGROUND SCROLL ---
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
-      document.body.style.paddingRight = "var(--scrollbar-width)"; // Layout shift prevent karne ke liye
     } else {
       document.body.style.overflow = "unset";
-      document.body.style.paddingRight = "0px";
     }
     return () => { document.body.style.overflow = "unset"; };
   }, [isOpen]);
@@ -29,54 +29,51 @@ const CareerModal = ({ isOpen, onClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus("loading");
+
     try {
+      // 1. SAVE TO FIREBASE (Admin Panel Data)
+      await addDoc(collection(db, "applications"), {
+        ...formData,
+        status: "pending",
+        appliedAt: serverTimestamp(),
+      });
+
+      // 2. SEND TO GOOGLE SHEETS (Backup)
       await fetch(scriptURL, {
         method: "POST",
         mode: "no-cors",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
+
       setStatus("sent");
       setFormData({ name: "", email: "", contact: "", college: "", degree: "", experience: "Fresher", role: "", resume: "" });
       setTimeout(() => { setStatus("idle"); onClose(); }, 2500);
     } catch (error) {
-      console.error("Error!", error);
+      console.error("Firebase/Sheet Error!", error);
       setStatus("idle");
+      alert("Submission failed. Please try again.");
     }
   };
 
   return (
-    // Is container ko screen ke bilkul upar rakha hai taaki header bypass ho sake
     <div className="fixed inset-0 z-[99999] flex items-start justify-center overflow-y-auto overflow-x-hidden pt-20 md:pt-32 pb-10">
-      
-      {/* Backdrop: Full screen blur overlay */}
-      <div 
-        className="fixed inset-0 bg-black/80 backdrop-blur-md cursor-pointer" 
-        onClick={onClose}
-      ></div>
-      
-      {/* Modal Card: 'flex-shrink-0' ensures it doesn't compress on small vertical heights */}
-      <div className="relative bg-white w-full max-w-xl rounded-[2.5rem] shadow-[0_0_60px_rgba(0,0,0,0.5)] animate-in zoom-in duration-300 flex flex-col overflow-hidden mx-4 flex-shrink-0">
-        
-        {/* Fixed Header */}
+      <div className="fixed inset-0 bg-black/80 backdrop-blur-md cursor-pointer" onClick={onClose}></div>
+      <div className="relative bg-white w-full max-w-xl rounded-[2.5rem] shadow-2xl animate-in zoom-in duration-300 flex flex-col overflow-hidden mx-4 flex-shrink-0">
         <div className="p-6 pb-4 flex justify-between items-start bg-white border-b border-zinc-50 sticky top-0 z-20">
           <div className="pr-8 text-left">
             <h3 className="text-xl md:text-2xl font-black uppercase tracking-tighter leading-none">
               Apply to <span style={{color: brandColor}}>CodeWebX</span>
             </h3>
-            <p className="text-zinc-400 text-[10px] font-bold uppercase tracking-widest mt-1">
-              Engineering Modern Legacies
-            </p>
+            <p className="text-zinc-400 text-[10px] font-bold uppercase tracking-widest mt-1">Engineering Modern Legacies</p>
           </div>
           <button onClick={onClose} className="p-2 -mr-2 text-zinc-400 hover:text-black hover:bg-zinc-100 rounded-full transition-all">
             <X size={24} />
           </button>
         </div>
 
-        {/* Scrollable Form Body */}
         <div className="p-6 pt-4 overflow-y-visible flex-1">
           <form onSubmit={handleSubmit} id="career-form" className="space-y-4">
-            
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="relative">
                 <User className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-300" size={16} />
@@ -128,7 +125,6 @@ const CareerModal = ({ isOpen, onClose }) => {
           </form>
         </div>
 
-        {/* Fixed Footer */}
         <div className="p-6 bg-zinc-50 border-t border-zinc-100 sticky bottom-0 z-20">
           <button 
             form="career-form"
