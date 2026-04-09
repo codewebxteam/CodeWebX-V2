@@ -8,21 +8,21 @@ const AboutSection = () => {
 
   const stats = [
     {
-      number: "13",
+      number: "3",
       label: "Years",
       icon: <Rocket size={20} />,
       color: "from-blue-500/20 to-blue-600/5",
       accent: "#3b82f6"
     },
     {
-      number: "500",
+      number: "50",
       label: "Assets",
       icon: <Globe size={20} />,
       color: "from-emerald-500/20 to-emerald-600/5",
       accent: "#10b981"
     },
     {
-      number: "50",
+      number: "20",
       label: "Apps",
       icon: <Smartphone size={20} />,
       color: "from-orange-500/20 to-orange-600/5",

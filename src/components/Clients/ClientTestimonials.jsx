@@ -1,122 +1,108 @@
-import React, { useRef } from "react";
-import { Quote, Star } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { Quote, Star, ExternalLink } from "lucide-react";
+import { db } from "../../firebase";
+import { collection, onSnapshot, query, orderBy } from "firebase/firestore";
 
 const ClientTestimonials = () => {
-  const scrollRef = useRef(null);
-  const brandColor = "#00a63e"; // CodeWebX Green
+  const [testimonials, setTestimonials] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const brandColor = "#00a63e";
 
-  const testimonials = [
-    {
-      clientName: "Founder, Mice Academy",
-      clientImage: "https://images.pexels.com/photos/2182970/pexels-photo-2182970.jpeg?auto=compress&cs=tinysrgb&w=800",
-      projectImage: "https://images.pexels.com/photos/5905709/pexels-photo-5905709.jpeg?auto=compress&cs=tinysrgb&w=800",
-      projectTitle: "Mice Academy LMS",
-      experience: "CodeWebX transformed our coaching institute into a digital powerhouse. Their team understands the local market while delivering world-class tech.",
-      width: "w-[85vw] md:w-[65vw]",
-    },
-    {
-      clientName: "Director, Hello 11",
-      clientImage: "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=800",
-      projectImage: "https://images.pexels.com/photos/4606344/pexels-photo-4606344.jpeg?auto=compress&cs=tinysrgb&w=800",
-      projectTitle: "Hello 11 Mobility App",
-      experience: "The real-time tracking and scalability of the app they built is beyond expectations. Truly a tech partner.",
-      width: "w-[75vw] md:w-[45vw]",
-    },
-    {
-      clientName: "CEO, Raj Enterprises",
-      clientImage: "https://images.pexels.com/photos/1516680/pexels-photo-1516680.jpeg?auto=compress&cs=tinysrgb&w=800",
-      projectImage: "https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=800",
-      projectTitle: "Supply Chain ERP",
-      experience: "Their ERP system streamlined our entire supply chain. Professional team and exceptional delivery speed.",
-      width: "w-[80vw] md:w-[55vw]",
-    }
-  ];
+  useEffect(() => {
+    const q = query(collection(db, "testimonials"), orderBy("createdAt", "desc"));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      setTestimonials(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+      setLoading(false);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  if (loading) return null;
 
   return (
-    <section className="py-24 bg-white overflow-hidden border-t border-zinc-100">
-      
-      {/* 1. Header Section */}
-      <div className="px-6 md:px-16 mb-16">
+    <section className="py-16 md:py-24 bg-white overflow-hidden border-t border-zinc-100">
+      <style dangerouslySetInnerHTML={{__html: `.no-scrollbar::-webkit-scrollbar { display: none; }`}} />
+
+      {/* Header Section */}
+      <div className="px-6 md:px-16 mb-12 md:mb-16">
         <div className="flex items-center gap-4">
-          <span className="text-[11px] font-black uppercase tracking-[0.5em] text-zinc-400">Client Feedback</span>
-          <div className="h-[1px] w-20 bg-zinc-200"></div>
+          <span className="text-[10px] md:text-[11px] font-black uppercase tracking-[0.5em] text-zinc-400">Client Feedback</span>
+          <div className="h-[1px] w-16 md:w-20 bg-zinc-200"></div>
         </div>
         <h2 className="text-4xl md:text-6xl font-black tracking-tighter text-black mt-4 uppercase italic leading-none">
           Trusted <span className="text-zinc-300">Voices</span>
         </h2>
       </div>
 
-      {/* 2. Scroll Container with 'no-scrollbar' class */}
-      <div 
-        ref={scrollRef}
-        className="flex gap-8 overflow-x-auto no-scrollbar snap-x snap-mandatory px-6 md:px-16 pb-12 cursor-grab active:cursor-grabbing"
-        style={{
-          scrollbarWidth: 'none', /* Firefox */
-          msOverflowStyle: 'none', /* IE and Edge */
-        }}
-      >
-        {/* Webkit scrollbar hiding logic via CSS-in-JS pattern */}
-        <style dangerouslySetInnerHTML={{__html: `
-          .no-scrollbar::-webkit-scrollbar {
-            display: none;
-          }
-        `}} />
-
+      {/* Horizontal Slider */}
+      <div className="flex gap-8 overflow-x-auto no-scrollbar snap-x snap-mandatory px-6 md:px-16 pb-12 cursor-grab active:cursor-grabbing">
         {testimonials.map((item, idx) => (
-          <div 
-            key={idx} 
-            className={`flex-shrink-0 ${item.width} group snap-center relative`}
-          >
-            {/* Split Visual Card */}
-            <div className="relative aspect-[16/10] md:aspect-video rounded-[3rem] md:rounded-[5rem] overflow-hidden border border-zinc-100 shadow-sm grid grid-cols-2">
+          <div key={item.id} className={`flex-shrink-0 ${item.width || 'w-[85vw] md:w-[60vw]'} group snap-center relative`}>
+            
+            {/* --- SPLIT VISUAL CARD (Original Design) --- */}
+            <div className="relative aspect-[16/10] md:aspect-video rounded-[2.5rem] md:rounded-[5rem] overflow-hidden border border-zinc-100 shadow-sm grid grid-cols-2 bg-zinc-50">
+              
+              {/* Left Side: Client Image */}
               <div className="relative h-full overflow-hidden border-r border-zinc-100">
                   <img src={item.clientImage} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000" alt={item.clientName} />
-                  <div className="absolute inset-0 bg-black/5 opacity-50"></div>
+                  <div className="absolute inset-0 bg-black/5"></div>
               </div>
+
+              {/* Right Side: Project Image */}
               <div className="relative h-full overflow-hidden">
-                  <img src={item.projectImage} className="w-full h-full object-cover opacity-60 grayscale hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000" alt={item.projectTitle} />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-80"></div>
+                  <img src={item.projectImage} className="w-full h-full object-cover opacity-80 md:opacity-60 grayscale hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000" alt={item.projectTitle} />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
               </div>
               
-              {/* Floating Quote */}
-              <div className="absolute top-8 left-8 z-20 flex gap-2">
-                   <div className="bg-white/90 backdrop-blur-md p-3 rounded-full border border-zinc-200 shadow-md">
-                      <Quote size={18} style={{ color: brandColor }} fill={brandColor} className="rotate-180" />
+              {/* --- SMALLER FLOATING ELEMENTS --- */}
+              
+              {/* Quote Icon - Smaller & Tight to corner */}
+              <div className="absolute top-4 left-4 md:top-8 md:left-8 z-20">
+                   <div className="bg-white/95 backdrop-blur-md p-2 md:p-3 rounded-full border border-zinc-200 shadow-sm">
+                      <Quote size={12} style={{ color: brandColor }} fill={brandColor} className="rotate-180 md:w-4 md:h-4" />
                    </div>
               </div>
               
-              {/* Rating */}
-              <div className="absolute top-8 right-8 z-20 flex items-center gap-1.5 bg-black/60 backdrop-blur-sm px-4 py-2 rounded-full border border-white/10">
-                  {[1,2,3,4,5].map(s => <Star key={s} size={10} fill={brandColor} stroke={brandColor} />)}
+              {/* Rating - Smaller & Minimalist */}
+              <div className="absolute top-4 right-4 md:top-8 md:right-8 z-20 flex items-center gap-0.5 bg-black/40 backdrop-blur-sm px-2.5 py-1 rounded-full border border-white/5">
+                  {[1,2,3,4,5].map(s => (
+                    <Star key={s} size={7} fill={brandColor} stroke={brandColor} className="md:w-2 md:h-2" />
+                  ))}
               </div>
             </div>
 
             {/* Info Section */}
-            <div className="mt-10 px-6">
-              <div className="flex justify-between items-start mb-6">
+            <div className="mt-8 md:mt-10 px-2 md:px-6">
+              <div className="flex justify-between items-start mb-4 text-left">
                 <div>
-                    <h3 className="text-3xl md:text-5xl font-black text-black tracking-tighter uppercase leading-none group-hover:text-[#00a63e] transition-colors">
+                    <h3 className="text-2xl md:text-5xl font-black text-black tracking-tighter uppercase leading-none group-hover:text-[#00a63e] transition-colors">
                       {item.clientName}
                     </h3>
-                    <p className="text-zinc-500 text-xs font-bold uppercase tracking-widest mt-2">{item.projectTitle}</p>
+                    <div className="flex flex-wrap items-center gap-3 mt-2">
+                        <p className="text-zinc-500 text-[10px] md:text-xs font-bold uppercase tracking-widest">{item.projectTitle}</p>
+                        
+                        {item.liveLink && (
+                            <a 
+                                href={item.liveLink} 
+                                target="_blank" 
+                                rel="noreferrer" 
+                                className="flex items-center gap-1 text-[9px] font-black uppercase text-[#00a63e] border-b border-[#00a63e]/20 pb-0.5"
+                            >
+                                View Project <ExternalLink size={10} />
+                            </a>
+                        )}
+                    </div>
                 </div>
-                <span className="text-sm font-bold text-zinc-300">0{idx + 1}</span>
+                <span className="text-xs font-bold text-zinc-300">0{idx + 1}</span>
               </div>
-              <p className="text-zinc-700 text-base md:text-xl font-medium max-w-2xl leading-relaxed italic">
+              
+              <p className="text-zinc-700 text-sm md:text-xl font-medium max-w-2xl leading-relaxed italic text-left opacity-90">
                 "{item.experience}"
               </p>
             </div>
           </div>
         ))}
         <div className="flex-shrink-0 w-[5vw]"></div>
-      </div>
-
-      {/* 3. Interaction Hint */}
-      <div className="px-6 md:px-16 mt-8">
-        <div className="flex items-center gap-3 text-zinc-400">
-           <div className="w-12 h-[1px] bg-zinc-200"></div>
-           <span className="text-[10px] font-bold uppercase tracking-widest">Hold and drag to explore more client voices</span>
-        </div>
       </div>
     </section>
   );

@@ -7,21 +7,21 @@ const services = [
   {
     id: "01",
     title: "App Development",
-    description: "As a trusted mobile app development company in Uttar Pradesh, we build apps for business growth through technology. We use React Native, Flutter, and native iOS/Android, powered by Firebase.",
+    description: "We engineer high-performance iOS and Android ecosystems designed for infinite scalability. From intuitive UX to robust backend architecture, we build mobile solutions that drive engagement and accelerate business growth across Uttar Pradesh and beyond.",
     features: ["1. Cross-Platform App Development", "2. Native App Development (iOS / Android)", "3. AI-Powered App Features"],
     bgColor: "bg-black",
   },
   {
     id: "02",
     title: "Website Development",
-    description: "Crafting high-performance web applications using ReactJS, Next.js, and Vite. We focus on speed, SEO, and minimalist design that converts visitors into customers.",
+    description: "Crafting future-ready web platforms and enterprise software with a focus on unmatched speed and security. We blend minimalist design with powerful functionality to convert global traffic into loyal customers for your business.",
     features: ["1. Custom Enterprise Solutions", "2. E-Commerce Platforms", "3. Progressive Web Apps (PWA)"],
     bgColor: "bg-[#0a0a0a]", 
   },
   {
     id: "03",
     title: "Digital Marketing",
-    description: "Scaling your brand in Gorakhpur, Basti, and Khalilabad with data-driven strategies. From Facebook Ads to Google Search, we ensure your business stays ahead.",
+    description: "Dominating search engines and social landscapes with data-backed growth strategies. We help brands in Gorakhpur, Basti, and Khalilabad scale their authority and deliver measurable ROI through precision-targeted performance marketing.",
     features: ["1. Performance Marketing", "2. Search Engine Optimization", "3. Social Media Management"],
     bgColor: "bg-[#0d0d0d]",
   }

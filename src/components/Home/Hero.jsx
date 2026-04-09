@@ -1,122 +1,104 @@
-import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import InquiryModal from "../Common/InquiryModal"; 
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import InquiryModal from "../Common/InquiryModal";
+import HeroImage from "../../assets/hero.png"; 
 
 const Hero = () => {
-  const brandColor = "#00a63e";
-  const [index, setIndex] = useState(0);
+  const brandColor = "#00a63e"; 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  
-  const services = ["Apps", "Websites", "ERP", "AI Tools", "Portals" ];
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setIndex((prev) => (prev + 1) % services.length);
-    }, 2500);
-    return () => clearInterval(timer);
-  }, []);
 
   return (
-    <section className="relative min-h-[85vh] md:min-h-screen w-full flex flex-col justify-center px-6 md:px-16 pt-32 md:pt-48 pb-20 overflow-hidden bg-black">
+    <section className="relative min-h-[90vh] lg:min-h-screen w-full flex items-center justify-center px-4 md:px-16 pt-10 md:pt-32 pb-10 overflow-hidden bg-black text-white">
       
-      {/* 1. LAYER: TECHNICAL GRID */}
-      <div 
-        className="absolute inset-0 z-0 opacity-30"
-        style={{ 
-          backgroundImage: `radial-gradient(${brandColor} 0.5px, transparent 0.5px), linear-gradient(to right, #111 1px, transparent 1px), linear-gradient(to bottom, #111 1px, transparent 1px)`,
-          backgroundSize: '25px 25px',
-        }}
-      ></div>
-
-      <div className="relative z-10 flex flex-col lg:flex-row items-center lg:items-end justify-between w-full h-full gap-12 lg:gap-0">
+      {/* --- BACKGROUND DECOR --- */}
+      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+        <h2 className="absolute top-10 left-1/2 -translate-x-1/2 text-[15vw] font-black opacity-[0.03] whitespace-nowrap lg:hidden">
+          CODEWEBX
+        </h2>
         
-        {/* --- LEFT: MAIN HEADING (Fixed Clipping & Enhanced UI) --- */}
-        <div className="w-full lg:w-2/3 flex flex-col items-center lg:items-start text-center lg:text-left">
-          <h1 className="text-6xl sm:text-7xl md:text-9xl lg:text-[10rem] font-black tracking-tighter leading-[0.8] uppercase select-none">
-            <span className="text-white">We</span> <br />
-            {/* DEVELOP: Transparent with White Border */}
-            <span 
-              className="text-transparent"
-              style={{ WebkitTextStroke: "1px rgba(255,255,255,0.4)" }}
-            >
-              develop
-            </span> <br />
-            
-            {/* SERVICES: Bold, Visible & Modern 3D Flip */}
-            <div className="relative h-[1.1em] flex items-center justify-center lg:justify-start overflow-visible pt-2">
-              <AnimatePresence mode="wait">
-                <motion.span
-                  key={services[index]}
-                  initial={{ y: "80%", opacity: 0, rotateX: 60 }}
-                  animate={{ y: "0%", opacity: 1, rotateX: 0 }}
-                  exit={{ y: "-80%", opacity: 0, rotateX: -60 }}
-                  transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-                  className="inline-block text-[#00a63e] italic font-black"
-                  style={{ textShadow: `0 0 30px ${brandColor}44` }}
-                >
-                  {services[index]}
-                </motion.span>
-              </AnimatePresence>
-            </div>
-          </h1>
+        <div 
+          className="absolute inset-0 opacity-10"
+          style={{ 
+            backgroundImage: `radial-gradient(circle at 2px 2px, ${brandColor} 1px, transparent 0)`,
+            backgroundSize: '30px 30px',
+          }}
+        ></div>
+        
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[60%] h-[40%] bg-[#00a63e]/15 blur-[100px] rounded-full"></div>
+      </div>
 
-          <button 
-            onClick={() => setIsModalOpen(true)}
-            className="mt-12 md:mt-16 group flex items-center gap-5 bg-white text-black px-12 py-5 md:px-16 md:py-6 rounded-full font-black text-[11px] md:text-xs uppercase tracking-[0.2em] hover:bg-[#00a63e] hover:text-white transition-all duration-500 shadow-2xl active:scale-95"
+      <div className="relative z-10 container mx-auto flex flex-col items-center justify-center gap-4 lg:grid lg:grid-cols-12 lg:gap-12">
+        
+        {/* --- MAIN CONTENT (LEFT SIDE) --- */}
+        <div className="w-full lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-left order-2 lg:order-1">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
           >
-            Let's Talk!
-            <span className="text-xl transition-transform group-hover:translate-x-2 group-hover:-translate-y-2">
-              ↗
-            </span>
-          </button>
-        </div>
+            <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[9rem] xl:text-[10rem] font-black uppercase tracking-tighter leading-[0.85]">
+              SCALING <br />
+              <span 
+                className="text-transparent"
+                style={{ WebkitTextStroke: "1px rgba(255,255,255,0.4)" }}
+              >
+                BRANDS
+              </span> <br />
+              <span className="text-[#00a63e]">ONLINE</span>
+            </h1>
+            
+            <p className="mt-4 lg:mt-8 text-zinc-400 text-sm md:text-xl max-w-lg font-medium leading-relaxed px-4 lg:px-0">
+              We develop high-performance websites and apps that scale your brand. Pure tech, no fluff.
+            </p>
 
-        {/* --- RIGHT: STATS & CARDS --- */}
-        <div className="flex flex-col gap-8 md:gap-12 items-center lg:items-end w-full lg:w-auto">
-          <div className="flex gap-4 md:gap-6">
-            {/* Project Card */}
-            <div className="w-40 h-40 md:w-52 md:h-52 bg-zinc-900/40 backdrop-blur-xl border border-white/5 rounded-[2.5rem] p-8 flex flex-col justify-between group hover:border-[#00a63e]/30 transition-all duration-500">
-              <div className="flex justify-between items-start">
-                <span className="text-4xl md:text-6xl font-black italic tracking-tighter text-white group-hover:text-[#00a63e] transition-colors">
-                  50+
-                </span>
-                <div className="bg-[#00a63e] w-8 h-8 rounded-full flex items-center justify-center text-black">
-                  <span className="text-xs font-black">↗</span>
+            <div className="mt-8 flex flex-col sm:flex-row items-center gap-6 px-4 lg:px-0">
+              <button 
+                onClick={() => setIsModalOpen(true)}
+                className="w-full sm:w-auto bg-[#00a63e] text-white px-12 py-5 rounded-2xl font-black text-xs uppercase tracking-widest hover:scale-105 transition-all shadow-[0_15px_40px_rgba(0,166,62,0.3)] active:scale-95"
+              >
+                Start Your Project ↗
+              </button>
+              
+              <div className="flex items-center gap-4 bg-zinc-900/40 p-3 rounded-2xl border border-white/5 backdrop-blur-sm">
+                <div className="flex -space-x-2">
+                  {[1,2,3].map(i => <div key={i} className="w-7 h-7 rounded-full bg-zinc-800 border-2 border-black flex items-center justify-center text-[8px] font-bold">CWX</div>)}
+                </div>
+                <div className="text-left">
+                  <p className="text-white text-[10px] font-black uppercase leading-none">Trusted</p>
+                  <p className="text-zinc-500 text-[8px] font-bold uppercase tracking-tighter mt-1">By 50+ Global Brands</p>
                 </div>
               </div>
-              <p className="text-zinc-500 text-[10px] font-black uppercase tracking-widest leading-tight">
-                Architects <br /> & Builders
-              </p>
             </div>
+          </motion.div>
+        </div>
 
-            {/* Year Card */}
-            <div className="w-40 h-40 md:w-52 md:h-52 bg-zinc-100 rounded-[2.5rem] p-8 flex flex-col justify-between text-black shadow-2xl relative overflow-hidden">
-              <span className="text-[10px] font-black uppercase tracking-[0.2em] opacity-40">
-                Legacy
-              </span>
-              <span className="text-5xl font-black tracking-tighter leading-none relative z-10">
-                2024
-              </span>
-              <div className="absolute -bottom-4 -right-4 w-12 h-12 bg-[#00a63e]/10 rounded-full"></div>
+        {/* --- IMAGE SHOWCASE (RIGHT SIDE) --- */}
+        <div className="w-full lg:col-span-5 flex justify-center items-center order-1 lg:order-2 mt-[-20px] lg:mt-0">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1 }}
+            className="relative w-full max-w-[280px] md:max-w-[480px]"
+          >
+            <motion.img 
+              src={HeroImage} 
+              alt="CodeWebX Tech Showcase" 
+              animate={{ y: [0, -12, 0] }}
+              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+              className="w-full h-auto drop-shadow-[0_10px_40px_rgba(0,166,62,0.25)] rounded-2xl relative z-10"
+            />
+            
+            <div className="absolute -top-4 -right-2 bg-zinc-900/90 backdrop-blur-md border border-white/10 px-4 py-2 rounded-xl shadow-2xl z-20">
+               <p className="text-[10px] font-black text-[#00a63e] uppercase leading-none">Status</p>
+               <p className="text-[14px] font-black text-white italic">Active 🔥</p>
             </div>
-          </div>
-
-          <div className="text-center lg:text-right space-y-3">
-            <p className="text-zinc-500 text-[13px] md:text-[14px] font-medium leading-relaxed border-l-0 lg:border-r-2 border-[#00a63e] lg:pr-6 max-w-[280px] md:max-w-[340px]">
-              Modern tech partners for startups. <br />
-              <span className="text-white font-black uppercase tracking-tighter text-base md:text-lg">
-                "we   add   value   in   your   product"
-              </span>
-            </p>
-          </div>
+          </motion.div>
         </div>
       </div>
 
-      {/* 3. LAYER: WATERMARK */}
-      <div className="absolute -right-20 top-1/2 -rotate-90 origin-right hidden xl:block pointer-events-none translate-y-20">
-        <span className="text-white/[0.03] text-[180px] font-black tracking-tighter uppercase select-none whitespace-nowrap">
-          CODEWEBX_ENGINES
-        </span>
+      {/* BACKGROUND DECORATIVE TEXT */}
+      <div className="absolute -bottom-10 -left-10 opacity-[0.02] select-none pointer-events-none hidden lg:block">
+        <h2 className="text-[25rem] font-black leading-none">01</h2>
       </div>
 
       <InquiryModal 

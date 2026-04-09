@@ -4,9 +4,9 @@ const WorkStats = () => {
   const brandColor = "#00a63e"; // CodeWebX Green
 
   const stats = [
-    { label: "Successful Projects", value: "16+" },
-    { label: "Cities Reached", value: "05+" },
-    { label: "Tech Stack Expertise", value: "12+" },
+    { label: "Successful Projects", value: "80+" },
+    { label: "Cities Reached", value: "10+" },
+    { label: "Tech Stack Expertise", value: "30+" },
     { label: "Client Satisfaction", value: "100%" },
   ];
 

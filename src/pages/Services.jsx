@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Plus, Minus, ArrowUpRight, Globe, Smartphone, 
-  Settings2, Megaphone, Search, Fingerprint, 
-  Cpu, Sparkles, Layout
+  Megaphone, Search, Fingerprint, Cpu
 } from "lucide-react";
 import InquiryModal from "../components/Common/InquiryModal";
 
@@ -11,6 +10,15 @@ const Services = () => {
   const [openIndex, setOpenIndex] = useState(0); 
   const [isInquiryOpen, setIsInquiryOpen] = useState(false);
   const [selectedContext, setSelectedContext] = useState("");
+
+  // --- FORCE SCROLL TO TOP ON LOAD ---
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "instant", // "smooth" ki jagah "instant" use kiya hai taaki user ko jump na dikhe
+    });
+  }, []);
 
   const services = [
     { 
@@ -71,7 +79,7 @@ const Services = () => {
   return (
     <div className="bg-[#050505] text-white min-h-screen font-sans selection:bg-[#00a63e]">
       
-      {/* --- COMPACT HERO SECTION --- */}
+      {/* --- HERO SECTION --- */}
       <section className="relative pt-32 pb-12 px-6 md:px-16 border-b border-white/5">
         <div className="absolute inset-0 opacity-[0.02] [background-image:linear-gradient(#fff_1px,transparent_1px),linear-gradient(90deg,#fff_1px,transparent_1px)] [background-size:30px_30px]"></div>
         
@@ -94,7 +102,7 @@ const Services = () => {
         </div>
       </section>
 
-      {/* --- SERVICES LIST (Always Engaging) --- */}
+      {/* --- SERVICES LIST --- */}
       <section className="px-6 md:px-16 py-12">
         <div className="max-w-[1400px] mx-auto grid grid-cols-1 gap-3">
           {services.map((service, index) => {
@@ -110,7 +118,6 @@ const Services = () => {
                   className="w-full p-6 md:p-10 flex items-center justify-between text-left outline-none"
                 >
                   <div className="flex items-center gap-6 md:gap-12">
-                    {/* Index & Icon always visible */}
                     <span className={`text-sm font-black opacity-20 hidden md:block`}>0{index + 1}</span>
                     <div className={`p-3 rounded-xl bg-white/5 text-[#00a63e] transition-transform duration-500 ${isOpen ? "rotate-[360deg] scale-110" : "group-hover:scale-110"}`}>
                        {service.icon}
@@ -119,7 +126,6 @@ const Services = () => {
                       <h2 className={`text-xl md:text-4xl font-black uppercase tracking-tight transition-all ${isOpen ? "text-white" : "text-zinc-400 group-hover:text-white"}`}>
                         {service.name}
                       </h2>
-                      {/* Sub-label always visible to avoid empty feeling */}
                       {!isOpen && (
                         <p className="text-[8px] font-black text-zinc-600 uppercase tracking-widest">View Details +</p>
                       )}
@@ -173,9 +179,9 @@ const Services = () => {
         </div>
       </section>
 
-      {/* --- QUICK CONTACT BAR (White Breaking) --- */}
+      {/* --- QUICK CONTACT BAR --- */}
       <section className="px-6 md:px-16 mt-12 mb-20">
-         <div className="max-w-[1400px] mx-auto bg-white p-6 md:p-10 rounded-[2.5rem] flex flex-col md:flex-row justify-between items-center gap-6">
+         <div className="max-w-[1400px] mx-auto bg-white p-6 md:p-10 rounded-[2.5rem] flex flex-col md:flex-row justify-between items-center gap-6 text-left">
             <h3 className="text-black text-2xl md:text-4xl font-black uppercase tracking-tighter leading-none">
               Need a Custom <br className="hidden md:block" /> Solution?
             </h3>

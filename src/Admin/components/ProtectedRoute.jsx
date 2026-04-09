@@ -1,19 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { auth } from "../../firebase";
-import { useAuthState } from "react-firebase-hooks/auth"; // npm install react-firebase-hooks
+import { onAuthStateChanged } from "firebase/auth";
 
 const ProtectedRoute = ({ children }) => {
-  const [user, loading] = useAuthState(auth);
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  if (loading) return (
-    <div className="min-h-screen bg-black flex items-center justify-center">
-      <span className="text-[10px] font-black text-[#00a63e] animate-pulse tracking-[1em]">CWX / AUTHENTICATING...</span>
-    </div>
-  );
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      setLoading(false);
+    });
+    return () => unsubscribe();
+  }, []);
 
-  if (!user) return <Navigate to="/admin/login" />;
+  if (loading) {
+    return (
+      <div className="h-screen w-full bg-black flex items-center justify-center">
+        <div className="w-10 h-10 border-2 border-dashed border-[#00a63e] rounded-full animate-spin"></div>
+      </div>
+    );
+  }
 
+  // Agar user login nahi hai, toh login page pe bhej do
+  if (!user) {
+    return <Navigate to="/admin/login" />;
+  }
+
+  // Agar login hai, toh sirf 'children' (Dashboard/Applicants etc.) dikhao
   return children;
 };
 

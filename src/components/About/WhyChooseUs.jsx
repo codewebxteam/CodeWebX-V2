@@ -17,9 +17,9 @@ const WhyChooseUs = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const stats = [
-    { label: "Years of Building", value: "13+" },
-    { label: "Websites Delivered", value: "1000+" },
-    { label: "Mobile Apps", value: "100+" },
+    { label: "Years of Building", value: "3+" },
+    { label: "Websites Delivered", value: "50+" },
+    { label: "Mobile Apps", value: "20+" },
     { label: "Client Retention", value: "100%" },
   ];
 
