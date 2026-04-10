@@ -10,9 +10,9 @@ const ImageUpload = ({ onUploadSuccess, folder = "general" }) => {
     const file = e.target.files[0];
     if (!file) return;
 
-    // Optional: Check file size (e.g., max 5MB)
-    if (file.size > 5 * 1024 * 1024) {
-      alert("Bhai, file size 5MB se kam rakho!");
+    // Optional: Check file size (e.g., max 10MB)
+    if (file.size > 10 * 1024 * 1024) {
+      alert("Bhai, file size 10MB se kam rakho!");
       return;
     }
 
@@ -40,21 +40,28 @@ const ImageUpload = ({ onUploadSuccess, folder = "general" }) => {
       }
     } catch (error) {
       console.error("Cloudinary Error:", error);
-      alert("Cloudinary Sync Failed! Check extension or internet.");
+      alert("Cloudinary Sync Failed! Check your internet or format.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="group relative w-full h-52 bg-black border-2 border-dashed border-white/5 rounded-[2.5rem] flex flex-col items-center justify-center transition-all hover:border-[#00a63e]/30 overflow-hidden">
+    // FIXED: Removed fixed height (h-52), added min-height and padding.
+    // Transition added for smooth height change on upload.
+    <div className="group relative w-full h-auto min-h-52 bg-black border-2 border-dashed border-white/5 rounded-[2.5rem] flex flex-col items-center justify-center transition-all duration-500 hover:border-[#00a63e]/30 overflow-hidden p-6 pb-12">
       {preview ? (
-        <>
+        // FIXED: Flex container for centered image that never crops.
+        <div className="w-full flex flex-col items-center justify-center relative">
           <img 
             src={preview} 
             alt="Preview" 
-            className={`w-full h-full object-cover transition-all ${loading ? "opacity-20 blur-sm" : "opacity-40"}`} 
+            // FIXED: Removed object-cover, added object-contain, h-auto, max-h-96 for control.
+            // This ensures the image is never cropped from top or bottom.
+            className={`w-auto h-auto max-w-full max-h-96 object-contain rounded-2xl transition-all ${loading ? "opacity-20 blur-sm" : "opacity-40"}`} 
           />
+          
+          {/* Overlay elements (Loader, Success check, Delete button) */}
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-2">
             {loading ? (
               <Loader2 className="text-[#00a63e] animate-spin" size={32} />
@@ -65,21 +72,24 @@ const ImageUpload = ({ onUploadSuccess, folder = "general" }) => {
               {loading ? "Encrypting Asset..." : "Sync Complete"}
             </span>
           </div>
+
+          {/* Delete Button */}
           <button 
             type="button"
             onClick={() => {
+              // Memory cleanup
+              URL.revokeObjectURL(preview);
               setPreview(null); 
               setUploadDone(false);
-              // Clean up memory
-              URL.revokeObjectURL(preview);
             }} 
-            className="absolute top-5 right-5 p-2 bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white rounded-xl transition-all"
+            className="absolute top-0 right-0 p-2 bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white rounded-xl transition-all z-10"
           >
             <X size={16} />
           </button>
-        </>
+        </div>
       ) : (
-        <label className="flex flex-col items-center justify-center cursor-pointer w-full h-full">
+        // Upload Placeholder (When no image selected)
+        <label className="flex flex-col items-center justify-center cursor-pointer w-full h-full py-10">
           <div className="p-5 bg-white/5 rounded-[1.5rem] mb-4 group-hover:scale-110 transition-transform">
             <ImageIcon className="text-zinc-500" size={30} />
           </div>
@@ -91,7 +101,6 @@ const ImageUpload = ({ onUploadSuccess, folder = "general" }) => {
             type="file" 
             className="hidden" 
             onChange={handleFileChange} 
-            // 'accept' string ko explicit banaya taaki saare image types allow ho jayein
             accept=".jpg, .jpeg, .png, .webp, .avif, image/*" 
           />
         </label>

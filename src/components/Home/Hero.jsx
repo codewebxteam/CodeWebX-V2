@@ -88,9 +88,15 @@ const Hero = () => {
               className="w-full h-auto drop-shadow-[0_10px_40px_rgba(0,166,62,0.25)] rounded-2xl relative z-10"
             />
             
-            <div className="absolute -top-4 -right-2 bg-zinc-900/90 backdrop-blur-md border border-white/10 px-4 py-2 rounded-xl shadow-2xl z-20">
-               <p className="text-[10px] font-black text-[#00a63e] uppercase leading-none">Status</p>
-               <p className="text-[14px] font-black text-white italic">Active 🔥</p>
+            {/* --- NEW POSITION: BOTTOM LEFT (Safe Zone) --- */}
+            <div className="absolute -bottom-2 -left-4 bg-zinc-900/90 backdrop-blur-md border border-white/10 px-5 py-3 rounded-2xl shadow-2xl z-20">
+               <div className="flex items-center gap-3">
+                 <div className="w-2 h-2 rounded-full bg-[#00a63e] animate-pulse"></div>
+                 <div>
+                   <p className="text-[9px] font-black text-[#00a63e] uppercase leading-none tracking-widest">System Status</p>
+                   <p className="text-[13px] font-black text-white uppercase mt-1">Active Now</p>
+                 </div>
+               </div>
             </div>
           </motion.div>
         </div>

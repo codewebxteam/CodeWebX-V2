@@ -135,7 +135,7 @@ const SelectedWork = () => {
           <button 
             onClick={(e) => {
               e.stopPropagation(); // Card click se bachane ke liye
-              navigate("/allprojects");
+              navigate("/works");
             }}
             className="absolute bg-black px-10 py-4 border border-zinc-800 rounded-full text-[9px] font-black uppercase tracking-[0.3em] text-white hover:bg-white hover:text-black hover:border-white transition-all active:scale-90"
           >

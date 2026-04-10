@@ -31,11 +31,9 @@ const PartnersAndClients = () => {
 
   return (
     <section className="bg-white py-12 md:py-24 text-black relative">
-      {/* Scrollbar hiding style */}
       <style dangerouslySetInnerHTML={{__html: `.no-scrollbar::-webkit-scrollbar { display: none; }`}} />
 
       <div className="max-w-[1400px] mx-auto px-6 md:px-16">
-        {/* --- PARTNERS LOGO STRIP --- */}
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-10 md:gap-14 items-center mb-20 border-b border-zinc-50 pb-12">
           {partners.map((partner, idx) => (
             <img key={idx} src={partner.url} alt={partner.name} className="h-7 md:h-10 w-auto object-contain mx-auto grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition-all duration-500" />
@@ -43,7 +41,6 @@ const PartnersAndClients = () => {
         </div>
       </div>
 
-      {/* --- DYNAMIC REVIEWS WITH HORIZONTAL SCROLL --- */}
       {loading ? (
         <div className="h-64 flex items-center justify-center">
           <Loader2 className="animate-spin text-[#00a63e]" size={40} />
@@ -55,12 +52,15 @@ const PartnersAndClients = () => {
               key={review.id} 
               className="flex-shrink-0 w-[85vw] md:w-[45vw] lg:w-[40vw] flex flex-col sm:flex-row bg-zinc-50/70 rounded-[2.5rem] overflow-hidden border border-zinc-100 group transition-all hover:shadow-2xl snap-center"
             >
-              {/* Left Side: Client Image */}
-              <div className="w-full sm:w-[40%] h-64 sm:h-auto overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-700 bg-zinc-200">
-                <img src={review.clientImage} className="w-full h-full object-cover" alt={review.clientName} />
+              {/* --- IMAGE SECTION FIXED --- */}
+              <div className="w-full sm:w-[40%] aspect-[4/3] sm:aspect-auto sm:h-auto overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-700 bg-zinc-200">
+                <img 
+                  src={review.clientImage} 
+                  className="w-full h-full object-cover object-top" // object-top ensures head is never cut
+                  alt={review.clientName} 
+                />
               </div>
 
-              {/* Text Content Block */}
               <div className="flex-1 p-8 md:p-10 flex flex-col justify-between text-left">
                 <div>
                   <div className="flex justify-between items-start mb-6">
@@ -90,13 +90,11 @@ const PartnersAndClients = () => {
               </div>
             </div>
           ))}
-          {/* Spacer for scroll end */}
           <div className="flex-shrink-0 w-4 md:w-16"></div>
         </div>
       )}
 
       <div className="max-w-[1400px] mx-auto px-6 md:px-16">
-        {/* --- MINIMAL CTA STRIP --- */}
         <div className="flex flex-col md:flex-row items-center justify-between pt-10 border-t border-zinc-100 gap-8">
           <div className="flex items-center gap-4">
             <Globe size={18} className="text-[#00a63e]" />
