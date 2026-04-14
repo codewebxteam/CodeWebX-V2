@@ -1,22 +1,28 @@
 import React, { useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
 import Lenis from "@studio-freight/lenis";
 
 // --- MAIN SITE COMPONENTS ---
 import Navbar from "./components/Common/Navbar";
 import Footer from "./components/Common/Footer";
+import EventPopup from "./components/Common/EventPopup"; // <-- ADDED EVENT POPUP IMPORT
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Services from "./pages/Services";
 import Careers from "./pages/Careers";
-import Works from "./pages/Works"; 
+import Works from "./pages/Works";
 import AllProjects from "./pages/AllProjects";
 import Clients from "./pages/Clients";
 
 // BLOG LOGIC
-import Blog from "./pages/Blog"; 
-import Articles from "./pages/Articles"; 
-import BlogDetail from "./pages/BlogDetail"; 
+import Blog from "./pages/Blog";
+import Articles from "./pages/Articles";
+import BlogDetail from "./pages/BlogDetail";
 
 // --- ADMIN PANEL COMPONENTS ---
 import LoginPage from "./Admin/pages/Login";
@@ -49,7 +55,7 @@ const AppContent = () => {
   // --- CRITICAL FIX: Kill Lenis on Admin Routes ---
   useEffect(() => {
     let lenis;
-    
+
     // Only initialize Lenis if NOT on an admin path
     if (!isAdminPath) {
       lenis = new Lenis({
@@ -75,6 +81,9 @@ const AppContent = () => {
 
   return (
     <div className="relative w-full bg-black min-h-screen selection:bg-lime-400 selection:text-black">
+      {/* Event Popup: Only for Public Pages (Admin panel me nahi dikhega) */}
+      {!isAdminPath && <EventPopup />}
+
       {/* Navbar: Only for Public Pages */}
       {!isAdminPath && <Navbar />}
 
@@ -86,45 +95,163 @@ const AppContent = () => {
           <Route path="/careers" element={<Careers />} />
           <Route path="/services" element={<Services />} />
           <Route path="/clients" element={<Clients />} />
-          <Route path="/works" element={<Works />} /> 
+          <Route path="/works" element={<Works />} />
           <Route path="/allprojects" element={<AllProjects />} />
-          
-          <Route path="/blog" element={<Blog />} /> 
-          <Route path="/articles" element={<Articles />} /> 
+
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/articles" element={<Articles />} />
           <Route path="/blog/:id" element={<BlogDetail />} />
-          
+
           {/* --- ADMIN AUTH --- */}
           <Route path="/admin/login" element={<LoginPage />} />
 
           {/* --- PROTECTED ADMIN ROUTES (CMS) --- */}
-          <Route path="/admin/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-          <Route path="/admin/inquiries" element={<ProtectedRoute><Inquiries /></ProtectedRoute>} />
-          <Route path="/admin/applicants" element={<ProtectedRoute><Applicants /></ProtectedRoute>} />
-          
+          <Route
+            path="/admin/dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/inquiries"
+            element={
+              <ProtectedRoute>
+                <Inquiries />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/applicants"
+            element={
+              <ProtectedRoute>
+                <Applicants />
+              </ProtectedRoute>
+            }
+          />
+
           {/* Portfolio */}
-          <Route path="/admin/portfolio" element={<ProtectedRoute><ProjectList /></ProtectedRoute>} />
-          <Route path="/admin/portfolio/add" element={<ProtectedRoute><ProjectForm /></ProtectedRoute>} />
+          <Route
+            path="/admin/portfolio"
+            element={
+              <ProtectedRoute>
+                <ProjectList />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/portfolio/add"
+            element={
+              <ProtectedRoute>
+                <ProjectForm />
+              </ProtectedRoute>
+            }
+          />
 
           {/* Clients */}
-          <Route path="/admin/clients" element={<ProtectedRoute><ClientList /></ProtectedRoute>} />
-          <Route path="/admin/clients/add" element={<ProtectedRoute><ClientForm /></ProtectedRoute>} />
+          <Route
+            path="/admin/clients"
+            element={
+              <ProtectedRoute>
+                <ClientList />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/clients/add"
+            element={
+              <ProtectedRoute>
+                <ClientForm />
+              </ProtectedRoute>
+            }
+          />
 
           {/* Blogs */}
-          <Route path="/admin/blogs" element={<ProtectedRoute><BlogList /></ProtectedRoute>} />
-          <Route path="/admin/blogs/add" element={<ProtectedRoute><BlogEditor /></ProtectedRoute>} />
+          <Route
+            path="/admin/blogs"
+            element={
+              <ProtectedRoute>
+                <BlogList />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/blogs/add"
+            element={
+              <ProtectedRoute>
+                <BlogEditor />
+              </ProtectedRoute>
+            }
+          />
 
           {/* Interns */}
-          <Route path="/admin/interns" element={<ProtectedRoute><InternList /></ProtectedRoute>} />
-          <Route path="/admin/interns/add" element={<ProtectedRoute><InternForm /></ProtectedRoute>} />
+          <Route
+            path="/admin/interns"
+            element={
+              <ProtectedRoute>
+                <InternList />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/interns/add"
+            element={
+              <ProtectedRoute>
+                <InternForm />
+              </ProtectedRoute>
+            }
+          />
 
           {/* --- PROTECTED ENTERPRISE SUITE ROUTES --- */}
-          <Route path="/admin/employees" element={<ProtectedRoute><EmployeeManager /></ProtectedRoute>} />
-          <Route path="/admin/employees/add" element={<ProtectedRoute><EmployeeForm /></ProtectedRoute>} />
-          <Route path="/admin/accounts" element={<ProtectedRoute><FinanceLedger /></ProtectedRoute>} />
-          <Route path="/admin/accounts/add" element={<ProtectedRoute><TransactionForm /></ProtectedRoute>} />
-          <Route path="/admin/operations" element={<ProtectedRoute><ProjectOps /></ProtectedRoute>} />
-          <Route path="/admin/operations/add" element={<ProtectedRoute><ProjectOpsForm /></ProtectedRoute>} />
-          
+          <Route
+            path="/admin/employees"
+            element={
+              <ProtectedRoute>
+                <EmployeeManager />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/employees/add"
+            element={
+              <ProtectedRoute>
+                <EmployeeForm />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/accounts"
+            element={
+              <ProtectedRoute>
+                <FinanceLedger />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/accounts/add"
+            element={
+              <ProtectedRoute>
+                <TransactionForm />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/operations"
+            element={
+              <ProtectedRoute>
+                <ProjectOps />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/operations/add"
+            element={
+              <ProtectedRoute>
+                <ProjectOpsForm />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </main>
 
