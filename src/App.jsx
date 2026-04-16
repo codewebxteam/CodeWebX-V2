@@ -52,6 +52,10 @@ const AppContent = () => {
   const location = useLocation();
   const isAdminPath = location.pathname.startsWith("/admin");
 
+  // --- EVENT POPUP TOGGLE ---
+  // Yahan true ya false likhein popup ko dikhane ya chhupane ke liye
+  const showEventPopup = false;
+
   // --- CRITICAL FIX: Kill Lenis on Admin Routes ---
   useEffect(() => {
     let lenis;
@@ -81,8 +85,8 @@ const AppContent = () => {
 
   return (
     <div className="relative w-full bg-black min-h-screen selection:bg-lime-400 selection:text-black">
-      {/* Event Popup: Only for Public Pages (Admin panel me nahi dikhega) */}
-      {!isAdminPath && <EventPopup />}
+      {/* Event Popup: Toggle aur admin path dono check karega */}
+      {!isAdminPath && showEventPopup && <EventPopup />}
 
       {/* Navbar: Only for Public Pages */}
       {!isAdminPath && <Navbar />}
