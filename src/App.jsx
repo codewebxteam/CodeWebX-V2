@@ -11,6 +11,7 @@ import Lenis from "@studio-freight/lenis";
 import Navbar from "./components/Common/Navbar";
 import Footer from "./components/Common/Footer";
 import EventPopup from "./components/Common/EventPopup"; // <-- ADDED EVENT POPUP IMPORT
+import FloatingWhatsApp from "./components/Common/FloatingWhatsApp"; // <-- ADDED FLOATING WHATSAPP IMPORT
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Services from "./pages/Services";
@@ -87,6 +88,9 @@ const AppContent = () => {
     <div className="relative w-full bg-black min-h-screen selection:bg-lime-400 selection:text-black">
       {/* Event Popup: Toggle aur admin path dono check karega */}
       {!isAdminPath && showEventPopup && <EventPopup />}
+
+      {/* Floating WhatsApp: Only for Public Pages */}
+      {!isAdminPath && <FloatingWhatsApp />}
 
       {/* Navbar: Only for Public Pages */}
       {!isAdminPath && <Navbar />}
