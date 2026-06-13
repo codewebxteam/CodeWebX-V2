@@ -1,12 +1,11 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Linkedin, Twitter, Globe } from "lucide-react";
+import { Linkedin } from "lucide-react";
 
 // --- ASSETS IMPORT ---
 import abhiImg from "../../assets/abhi.webp";
 import adityaImg from "../../assets/aditya.webp";
 import amitImg from "../../assets/amit.webp";
-import shivImg from "../../assets/shiv.webp";
 
 const Leadership = () => {
   const brandColor = "#00a63e"; 
@@ -16,21 +15,19 @@ const Leadership = () => {
       name: "Aditya Kumar",
       role: "Founder & CTO",
       img: adityaImg,
+      linkedin: "https://www.linkedin.com/in/thead76",
     },
     {
       name: "Amit Singh",
       role: "Co-Founder & CEO",
       img: amitImg,
+      linkedin: "https://www.linkedin.com/in/amitrodz",
     },
     {
       name: "Abhishek Chaudhary",
       role: "Co-Founder & MD",
       img: abhiImg,
-    },
-    {
-      name: "Shivansh Dwivedi",
-      role: "Co-Founder & COO",
-      img: shivImg,
+      linkedin: "https://www.linkedin.com/in/abhishek-chaudhary-aa08b3360",
     },
   ];
 
@@ -64,8 +61,8 @@ const Leadership = () => {
           </div>
         </div>
 
-        {/* --- LEADERS GRID --- */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* --- LEADERS GRID (3 Members Layout) --- */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 max-w-[1200px] mx-auto">
           {leaders.map((leader, idx) => (
             <motion.div
               key={idx}
@@ -73,42 +70,45 @@ const Leadership = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: idx * 0.1, duration: 0.8 }}
-              className="relative aspect-[3/4] rounded-[2.5rem] overflow-hidden group shadow-sm border border-zinc-100 bg-zinc-50"
+              className="relative aspect-[3/4] rounded-[2.5rem] overflow-hidden bg-zinc-900 border border-zinc-800 shadow-xl group"
             >
-              {/* Profile Image */}
+              {/* Profile Image - Hard Grayscale Matching the Screenshot */}
               <img
                 src={leader.img}
                 alt={leader.name}
-                className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000"
+                className="w-full h-full object-cover grayscale contrast-[1.05] brightness-[0.95]"
               />
 
-              {/* Permanent Info Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent flex flex-col justify-end p-8 text-left">
-                <h3 className="text-white text-2xl md:text-3xl font-black uppercase tracking-tighter leading-none mb-1">
+              {/* Exact Screenshot Gradient Match (Bottom Smooth Black Overlay) */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent flex flex-col justify-end p-8 text-left">
+                
+                {/* Name Styling - Large, Bold, White, Tight Tracking */}
+                <h3 className="text-white text-3xl md:text-4xl font-black uppercase tracking-tighter leading-[0.9] mb-1.5 whitespace-pre-line break-words max-w-[90%]">
                   {leader.name}
                 </h3>
-                <p
-                  className="font-black uppercase tracking-[0.3em] text-[10px]"
-                  style={{ color: brandColor }}
-                >
+                
+                {/* Role Styling - Bright Green, Small, High Letter Spacing */}
+                <p className="font-black uppercase tracking-[0.2em] text-[10px] text-[#00a63e]">
                   {leader.role}
                 </p>
 
-                {/* Social icons */}
-                <div className="flex gap-4 mt-4 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500">
-                  <Linkedin
-                    size={16}
-                    className="text-white/60 hover:text-[#00a63e] cursor-pointer transition-colors"
-                  />
-                  <Twitter
-                    size={16}
-                    className="text-white/60 hover:text-[#00a63e] cursor-pointer transition-colors"
-                  />
-                  <Globe
-                    size={16}
-                    className="text-white/60 hover:text-[#00a63e] cursor-pointer transition-colors"
-                  />
-                </div>
+                {/* LinkedIn Button Integration */}
+                {leader.linkedin && (
+                  <div className="mt-4">
+                    <a 
+                      href={leader.linkedin} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      title="LinkedIn Profile"
+                      className="inline-flex p-2 bg-white/10 rounded-xl hover:bg-[#00a63e] transition-colors duration-300 backdrop-blur-sm group-hover:scale-105 transform active:scale-95"
+                    >
+                      <Linkedin
+                        size={15}
+                        className="text-white"
+                      />
+                    </a>
+                  </div>
+                )}
               </div>
             </motion.div>
           ))}

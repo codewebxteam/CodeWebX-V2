@@ -70,11 +70,14 @@ const Footer = () => {
                 <Mail size={14} className="text-[#00a63e]" /> info@codewebx.in
               </button>
               <a href="tel:+917004046637" className="hover:text-white flex items-center gap-3 transition-colors font-bold">
-                <Phone size={14} className="text-[#00a63e]" /> +91 7004046637
+                <Phone size={14} className="text-[#00a63e]" /> +91  7004046637
+              </a>
+              <a href="tel:+918305031020" className="hover:text-white flex items-center gap-3 transition-colors font-bold">
+                <Phone size={14} className="text-[#00a63e]" /> +91  8305031020
               </a>
               <div className="flex items-start gap-3">
                 <MapPin size={14} className="text-[#00a63e] shrink-0" />
-                <span className="leading-relaxed">GIDA Sector 5, <br /> Gorakhpur, UP</span>
+                <span className="leading-relaxed">Gorakhpur, <br /> (Near MMM college, UP)</span>
               </div>
             </div>
           </div>

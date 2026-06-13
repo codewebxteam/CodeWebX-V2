@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState, useEffect } from "react";
 import { Quote, Star, ExternalLink } from "lucide-react";
 import { db } from "../../firebase";
@@ -20,8 +22,24 @@ const ClientTestimonials = () => {
   if (loading) return null;
 
   return (
-    <section className="py-16 md:py-24 bg-white overflow-hidden border-t border-zinc-100">
-      <style dangerouslySetInnerHTML={{__html: `.no-scrollbar::-webkit-scrollbar { display: none; }`}} />
+    <section className="py-16 md:py-24 bg-white overflow-hidden border-t border-zinc-100 relative">
+      {/* 🚀 ADVANCED CSS LOOP ENGINE: Large sweeping arrows layout cascade loop */}
+      <style dangerouslySetInnerHTML={{__html: `
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        @keyframes wideSwipeBouncers {
+          0%, 100% {
+            transform: translateX(0);
+            opacity: 0.15;
+          }
+          50% {
+            transform: translateX(12px);
+            opacity: 1;
+          }
+        }
+        .animate-wide-chevron {
+          animation: wideSwipeBouncers 1.8s infinite ease-in-out;
+        }
+      `}} />
 
       {/* Header Section */}
       <div className="px-6 md:px-16 mb-12 md:mb-16">
@@ -35,11 +53,11 @@ const ClientTestimonials = () => {
       </div>
 
       {/* Horizontal Slider */}
-      <div className="flex gap-8 overflow-x-auto no-scrollbar snap-x snap-mandatory px-6 md:px-16 pb-12 cursor-grab active:cursor-grabbing">
+      <div className="flex gap-8 overflow-x-auto no-scrollbar snap-x snap-mandatory px-6 md:px-16 pb-6 cursor-grab active:cursor-grabbing">
         {testimonials.map((item, idx) => (
           <div key={item.id} className={`flex-shrink-0 ${item.width || 'w-[85vw] md:w-[60vw]'} group snap-center relative`}>
             
-            {/* --- SPLIT VISUAL CARD (Original Design) --- */}
+            {/* --- SPLIT VISUAL CARD --- */}
             <div className="relative aspect-[16/10] md:aspect-video rounded-[2.5rem] md:rounded-[5rem] overflow-hidden border border-zinc-100 shadow-sm grid grid-cols-2 bg-zinc-50">
               
               {/* Left Side: Client Image */}
@@ -54,16 +72,13 @@ const ClientTestimonials = () => {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
               </div>
               
-              {/* --- SMALLER FLOATING ELEMENTS --- */}
-              
-              {/* Quote Icon - Smaller & Tight to corner */}
+              {/* --- FLOATING ELEMENTS --- */}
               <div className="absolute top-4 left-4 md:top-8 md:left-8 z-20">
                    <div className="bg-white/95 backdrop-blur-md p-2 md:p-3 rounded-full border border-zinc-200 shadow-sm">
                       <Quote size={12} style={{ color: brandColor }} fill={brandColor} className="rotate-180 md:w-4 md:h-4" />
                    </div>
               </div>
               
-              {/* Rating - Smaller & Minimalist */}
               <div className="absolute top-4 right-4 md:top-8 md:right-8 z-20 flex items-center gap-0.5 bg-black/40 backdrop-blur-sm px-2.5 py-1 rounded-full border border-white/5">
                   {[1,2,3,4,5].map(s => (
                     <Star key={s} size={7} fill={brandColor} stroke={brandColor} className="md:w-2 md:h-2" />
@@ -104,6 +119,25 @@ const ClientTestimonials = () => {
         ))}
         <div className="flex-shrink-0 w-[5vw]"></div>
       </div>
+
+      {/* =========================================================================
+          🚀 🔥 PREMIUM LARGE WHITE SCREEN ARROW CHEVRONS
+          (Placed inside the lower empty container exactly matching image_fb2bfc.png)
+         ========================================================================= */}
+      {testimonials.length > 1 && (
+        <div className="w-full flex flex-col items-center justify-center mt-6 mb-2 select-none pointer-events-none transition-all duration-300">
+          <div className="flex items-center justify-center gap-3 text-zinc-300 font-light text-4xl md:text-6xl tracking-[-0.15em]">
+            <span className="animate-wide-chevron font-black text-[#00a63e] drop-shadow-sm">›</span>
+            <span className="animate-wide-chevron [animation-delay:0.2s] font-black text-[#00a63e]/70 -ml-1">›</span>
+            <span className="animate-wide-chevron [animation-delay:0.4s] font-black text-[#00a63e]/40 -ml-1">›</span>
+            <span className="animate-wide-chevron [animation-delay:0.6s] font-medium text-zinc-200 -ml-1">›</span>
+          </div>
+          <span className="text-[9px] font-black uppercase tracking-[0.4em] text-zinc-400 mt-2 block opacity-80">
+            Swipe to explore more projects
+          </span>
+        </div>
+      )}
+
     </section>
   );
 };

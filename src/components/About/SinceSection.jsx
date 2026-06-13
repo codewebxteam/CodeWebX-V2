@@ -38,7 +38,7 @@ const SinceSection = () => {
             </h2>
           </div>
           <p className="text-zinc-500 text-xs md:text-sm font-medium max-w-xs leading-relaxed border-l-2 border-zinc-800 pl-6 text-left">
-            From our headquarters in GIDA to managing <span className="text-white">high-performance digital assets.</span> We are the engine behind modern digital success.
+            From our headquarters in Gorakhpur to managing <span className="text-white">high-performance digital assets.</span> We are the engine behind modern digital success.
           </p>
         </div>
 
@@ -47,25 +47,25 @@ const SinceSection = () => {
           
           {/* LEFT: Office Visual with Overlay */}
           <div className="lg:col-span-6 relative group">
-            <div className="relative aspect-video lg:aspect-square rounded-[2.5rem] border border-white/5 overflow-hidden shadow-2xl transition-all duration-700 hover:border-[#00a63e]/30">
+            <div className="relative aspect-video rounded-[2.5rem] border border-white/5 overflow-hidden shadow-2xl transition-all duration-700 hover:border-[#00a63e]/30">
               
-              {/* Actual Office Image */}
+              {/* Actual Office Image - Fixed Grayscale & Zoom */}
               <img 
                 src={officeImg} 
                 alt="CodeWebX Office" 
-                className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 scale-110 group-hover:scale-100"
+                className="w-full h-full object-cover transition-all duration-1000 scale-100 group-hover:scale-105"
               />
 
-              {/* Gradient Overlay for Text Readability */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+              {/* Gradient Overlay - Made lighter so image isn't blacked out */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent"></div>
 
               <div className="absolute bottom-8 left-8 right-8 z-10 text-left">
                 <div className="w-10 h-10 bg-[#00a63e] rounded-xl flex items-center justify-center mb-4 shadow-2xl">
                     <MapPin size={20} className="text-white" />
                 </div>
                 <h3 className="text-2xl md:text-3xl font-black text-white uppercase tracking-tighter mb-2 leading-none">
-                    GIDA <span className="text-zinc-400">Sector 5,</span> <br /> 
-                    <span style={{ color: brandColor }}>Gorakhpur.</span>
+                    Gorakhpur<span className="text-zinc-400">near,</span> <br /> 
+                    <span style={{ color: brandColor }}>MMM college.</span>
                 </h3>
                 <p className="text-zinc-300 text-[10px] font-bold uppercase tracking-widest opacity-60">
                     Regional Headquarters & Innovation Lab
@@ -90,7 +90,7 @@ const SinceSection = () => {
                         <h4 className="text-sm font-black uppercase tracking-widest text-white">Trust Foundation</h4>
                     </div>
                     <p className="text-zinc-500 text-xs md:text-sm leading-relaxed">
-                        Establishing secure, scalable systems in GIDA Sector 5. We manage enterprise data with military-grade precision.
+                        Establishing secure, scalable systems in Go. We manage enterprise data with military-grade precision.
                     </p>
                 </div>
                 <div className="space-y-4">
@@ -108,7 +108,7 @@ const SinceSection = () => {
             <div className="p-8 md:p-10 bg-zinc-900/40 border border-white/5 rounded-[3rem] flex flex-col md:flex-row items-center justify-between gap-8 group hover:bg-zinc-900 transition-all duration-500">
                 <div className="text-left">
                     <h5 className="text-xl font-bold text-white mb-1">Ready to scale?</h5>
-                    <p className="text-zinc-500 text-[9px] uppercase tracking-widest font-black">Join our GIDA ecosystem today.</p>
+                    <p className="text-zinc-500 text-[9px] uppercase tracking-widest font-black">Join our Gorakh ecosystem today.</p>
                 </div>
                 
                 <button 
