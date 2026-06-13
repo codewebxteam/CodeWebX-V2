@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
@@ -32,7 +34,7 @@ const Footer = () => {
           <div className="space-y-4">
             <div className="flex items-center gap-2">
               <div className="w-1.5 h-1.5 bg-[#00a63e] rounded-full animate-pulse"></div>
-              <span className="text-[8px] font-black uppercase tracking-[0.4em] text-zinc-500">
+              <span className="text-[8px] font-black uppercase tracking-[0.4em] text-zinc-400">
                 Ready to scale?
               </span>
             </div>
@@ -86,35 +88,29 @@ const Footer = () => {
               >
                 <Mail size={14} className="text-[#00a63e]" /> info@codewebx.in
               </button>
-<<<<<<< HEAD
-              <a href="tel:+917004046637" className="hover:text-white flex items-center gap-3 transition-colors font-bold">
-                <Phone size={14} className="text-[#00a63e]" /> +91  7004046637
-              </a>
-              <a href="tel:+918305031020" className="hover:text-white flex items-center gap-3 transition-colors font-bold">
-                <Phone size={14} className="text-[#00a63e]" /> +91  8305031020
-=======
 
-              {/* Phone */}
+              {/* 🚀 FIXED PHONE NUMBERS ROW */}
               <a
                 href="tel:+917004046637"
                 className="hover:text-white flex items-center gap-3 transition-colors font-bold"
               >
                 <Phone size={14} className="text-[#00a63e]" /> +91 7004046637
->>>>>>> fc5bff122940d87b0d32534d144ff3bd9e758c43
+              </a>
+              <a
+                href="tel:+918305031020"
+                className="hover:text-white flex items-center gap-3 transition-colors font-bold"
+              >
+                <Phone size={14} className="text-[#00a63e]" /> +91 8305031020
               </a>
 
               {/* Office 1 */}
               <div className="flex items-start gap-3">
-<<<<<<< HEAD
-                <MapPin size={14} className="text-[#00a63e] shrink-0" />
-                <span className="leading-relaxed">Gorakhpur, <br /> (Near MMM college, UP)</span>
-=======
                 <MapPin size={14} className="text-[#00a63e] shrink-0 mt-0.5" />
                 <div className="flex flex-col">
                   <span className="text-zinc-500 font-bold uppercase text-[8px] tracking-wider">
                     Office 1
                   </span>
-                  <span className="leading-relaxed">
+                  <span className="leading-relaxed text-zinc-400">
                     Mairwa, Siwan, <br /> Bihar, 841239
                   </span>
                 </div>
@@ -127,11 +123,10 @@ const Footer = () => {
                   <span className="text-zinc-500 font-bold uppercase text-[8px] tracking-wider">
                     Office 2
                   </span>
-                  <span className="leading-relaxed">
-                    Jungle Sikari, Khorabar, <br /> Gorakhpur, UP, 273014
+                  <span className="leading-relaxed text-zinc-400">
+                    Gorakhpur, <br /> (Near MMM college, UP), 273014
                   </span>
                 </div>
->>>>>>> fc5bff122940d87b0d32534d144ff3bd9e758c43
               </div>
             </div>
           </div>
@@ -225,7 +220,7 @@ const Footer = () => {
 
         {/* --- BOTTOM SECTION --- */}
         <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-zinc-900 text-zinc-700 text-[8px] font-black uppercase tracking-[0.3em] gap-4 text-center">
-          <p>© {currentYear} CodeWebX. Build with precision.</p>
+          <p className="text-zinc-500 font-bold">© {currentYear} CodeWebX. Built with precision.</p>
           <div className="flex gap-6 text-zinc-800">
             <span>Gorakhpur</span> <span>Basti</span> <span>Lucknow</span>
           </div>
