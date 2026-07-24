@@ -89,13 +89,15 @@ const Footer = () => {
                 <Mail size={14} className="text-[#00a63e]" /> info@codewebx.in
               </button>
 
-              {/* 🚀 FIXED PHONE NUMBERS ROW */}
+              {/* Phone 1 */}
               <a
                 href="tel:+917004046637"
                 className="hover:text-white flex items-center gap-3 transition-colors font-bold"
               >
                 <Phone size={14} className="text-[#00a63e]" /> +91 7004046637
               </a>
+              
+              {/* Phone 2 */}
               <a
                 href="tel:+918305031020"
                 className="hover:text-white flex items-center gap-3 transition-colors font-bold"
@@ -194,6 +196,14 @@ const Footer = () => {
                 className="hover:text-[#00a63e] cursor-pointer transition-colors"
               >
                 Privacy
+              </li>
+              <li>
+                <Link
+                  to="/verify"
+                  className="text-[#00a63e] hover:text-white transition-colors flex items-center gap-1"
+                >
+                  Verify Certificate
+                </Link>
               </li>
             </ul>
           </div>

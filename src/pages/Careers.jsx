@@ -37,8 +37,8 @@ const Careers = () => {
         <JobCardList />
       </section>
 
-      {/* 4. Certificate Verification - Trust Factor build karne ke liye */}
-      <CertificateVerifier />
+      {/* 4. Certificate Verification - Embedded via isStandalone={false} */}
+      <CertificateVerifier isStandalone={false} />
 
       {/* 5. Testimonials - Past Interns ka Experience */}
       <InternTestimonials />

@@ -25,6 +25,8 @@ import Blog from "./pages/Blog";
 import Articles from "./pages/Articles";
 import BlogDetail from "./pages/BlogDetail";
 
+import CertificateVerifier from "./components/Careers/CertificateVerifier";
+
 // --- ADMIN PANEL COMPONENTS ---
 import LoginPage from "./Admin/pages/Login";
 import Dashboard from "./Admin/pages/Dashboard";
@@ -109,6 +111,7 @@ const AppContent = () => {
           <Route path="/blog" element={<Blog />} />
           <Route path="/articles" element={<Articles />} />
           <Route path="/blog/:id" element={<BlogDetail />} />
+          <Route path="/verify" element={<CertificateVerifier />} />
 
           {/* --- ADMIN AUTH --- */}
           <Route path="/admin/login" element={<LoginPage />} />

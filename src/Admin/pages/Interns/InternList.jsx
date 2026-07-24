@@ -1,33 +1,60 @@
 import React, { useState, useEffect } from "react";
 import AdminLayout from "../../components/AdminLayout";
 import { db } from "../../../firebase";
-import { collection, onSnapshot, query, orderBy, deleteDoc, doc } from "firebase/firestore";
+import { collection, onSnapshot, deleteDoc, doc, writeBatch } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
-import { Plus, Pencil, Trash2, Loader2, Award, Users, ExternalLink } from "lucide-react";
+import { Plus, Pencil, Trash2, Loader2, GripVertical } from "lucide-react";
+import { Reorder } from "framer-motion";
 
 const InternList = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState("interns"); // interns or certificates
   const navigate = useNavigate();
 
   useEffect(() => {
     setLoading(true);
-    const q = query(collection(db, activeTab), orderBy("createdAt", "desc"));
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      setData(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+    // Fetch all interns without Firestore orderBy so we don't miss legacy records
+    const unsubscribe = onSnapshot(collection(db, "interns"), (snapshot) => {
+      let fetchedData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      
+      // Client-side sort by order. Fallback to createdAt or 0 if missing.
+      fetchedData.sort((a, b) => {
+        const orderA = a.order ?? (a.createdAt?.seconds || 0);
+        const orderB = b.order ?? (b.createdAt?.seconds || 0);
+        return orderA - orderB;
+      });
+
+      setData(fetchedData);
       setLoading(false);
     });
     return () => unsubscribe();
-  }, [activeTab]);
+  }, []);
 
   const handleDelete = async (id) => {
-    if (window.confirm(`Bhai, pakka ye ${activeTab === 'interns' ? 'intern' : 'certificate'} delete karna hai?`)) {
+    if (window.confirm(`Bhai, pakka ye intern delete karna hai?`)) {
       try {
-        await deleteDoc(doc(db, activeTab, id));
+        await deleteDoc(doc(db, "interns", id));
       } catch (err) {
         alert("Error: " + err.message);
       }
+    }
+  };
+
+  const handleReorder = async (newOrder) => {
+    setData(newOrder); // Instant UI update
+    
+    // Batch update to Firestore
+    const batch = writeBatch(db);
+    newOrder.forEach((item, index) => {
+      const docRef = doc(db, "interns", item.id);
+      batch.update(docRef, { order: index });
+    });
+    
+    try {
+      await batch.commit();
+    } catch (err) {
+      console.error("Batch order update failed:", err);
+      // Wait for next snapshot to fix UI if it fails
     }
   };
 
@@ -38,25 +65,18 @@ const InternList = () => {
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
           <div>
             <h2 className="text-5xl font-black uppercase text-white tracking-tighter">
-              Team <span className="text-[#00a63e]">{activeTab === 'interns' ? 'Squad' : 'Alumni'}</span>
+              Team <span className="text-[#00a63e]">Squad</span>
             </h2>
-            {/* Category Tabs */}
-            <div className="flex gap-4 mt-6">
-                <button onClick={() => setActiveTab("interns")} className={`px-6 py-2 rounded-full text-[10px] font-black uppercase tracking-widest transition-all ${activeTab === 'interns' ? 'bg-[#00a63e] text-white' : 'bg-zinc-900 text-zinc-500 hover:text-white'}`}>
-                   Active Interns
-                </button>
-                <button onClick={() => setActiveTab("certificates")} className={`px-6 py-2 rounded-full text-[10px] font-black uppercase tracking-widest transition-all ${activeTab === 'certificates' ? 'bg-[#00a63e] text-white' : 'bg-zinc-900 text-zinc-500 hover:text-white'}`}>
-                   Certificates
-                </button>
-            </div>
+            <p className="text-zinc-500 font-bold uppercase tracking-widest text-xs mt-2">
+              Drag and Drop to Reorder Interns
+            </p>
           </div>
           
           <button 
-            onClick={() => navigate("/admin/interns/add", { state: { type: activeTab === 'interns' ? 'intern' : 'certificate' } })}
+            onClick={() => navigate("/admin/interns/add")}
             className="flex items-center gap-3 bg-white text-black px-8 py-4 rounded-2xl font-black uppercase text-[11px] hover:bg-[#00a63e] hover:text-white transition-all shadow-lg active:scale-95"
           >
-            {activeTab === 'interns' ? <Plus size={18} /> : <Award size={18} />} 
-            Add New {activeTab === 'interns' ? 'Intern' : 'Certificate'}
+            <Plus size={18} /> Add New Intern
           </button>
         </div>
 
@@ -67,37 +87,66 @@ const InternList = () => {
           </div>
         ) : data.length === 0 ? (
           <div className="bg-zinc-950 border border-dashed border-white/10 rounded-[2.5rem] py-20 text-center">
-            <p className="text-zinc-600 font-black uppercase tracking-widest text-xs">No records found in {activeTab}</p>
+            <p className="text-zinc-600 font-black uppercase tracking-widest text-xs">No records found</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 gap-4">
+          <Reorder.Group 
+            axis="y" 
+            values={data} 
+            onReorder={handleReorder} 
+            className="flex flex-col gap-4"
+          >
             {data.map((item) => (
-              <div key={item.id} className="group bg-zinc-950 border border-white/5 p-4 md:p-6 rounded-[2rem] flex flex-col md:flex-row items-center justify-between gap-6 hover:border-[#00a63e]/30 transition-all">
-                <div className="flex items-center gap-6 w-full md:w-auto">
-                  <div className="w-16 h-16 rounded-2xl overflow-hidden bg-zinc-900 border border-white/10">
-                    <img src={item.image} alt="" className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-black text-white uppercase tracking-tight">{item.name}</h3>
-                    <div className="flex items-center gap-3 mt-1">
-                      <span className="text-[#00a63e] text-[9px] font-black uppercase tracking-widest">{item.role}</span>
-                      <span className="text-zinc-700 text-[9px]">•</span>
-                      <span className="text-zinc-500 text-[9px] font-bold uppercase">{activeTab === 'interns' ? item.duration : item.certId}</span>
+              <Reorder.Item 
+                key={item.id} 
+                value={item} 
+                className="relative cursor-grab active:cursor-grabbing"
+              >
+                <div className="group bg-zinc-950 border border-white/5 p-4 md:p-6 rounded-[2rem] flex flex-col md:flex-row items-center justify-between gap-6 hover:border-[#00a63e]/30 transition-all shadow-sm hover:shadow-lg">
+                  <div className="flex items-center gap-4 md:gap-6 w-full md:w-auto">
+                    
+                    {/* Drag Grip Icon */}
+                    <div className="text-zinc-700 hover:text-white transition-colors cursor-grab active:cursor-grabbing px-2 hidden md:block">
+                      <GripVertical size={24} />
+                    </div>
+
+                    <div className="w-16 h-16 rounded-2xl overflow-hidden bg-zinc-900 border border-white/10 shrink-0">
+                      {item.image ? (
+                        <img src={item.image} alt="" className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all" />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center text-[8px] font-mono text-zinc-600">NO_PIC</div>
+                      )}
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-black text-white uppercase tracking-tight">{item.name}</h3>
+                      <div className="flex items-center gap-3 mt-1">
+                        <span className="text-[#00a63e] text-[9px] font-black uppercase tracking-widest">{item.role}</span>
+                        <span className="text-zinc-700 text-[9px]">•</span>
+                        <span className="text-zinc-500 text-[9px] font-bold uppercase">{item.duration}</span>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <div className="flex items-center gap-3 w-full md:w-auto border-t md:border-t-0 border-white/5 pt-4 md:pt-0">
-                  <button onClick={() => navigate("/admin/interns/add", { state: { editData: item, type: activeTab === 'interns' ? 'intern' : 'certificate' } })} className="flex-1 md:flex-none flex items-center justify-center gap-2 bg-zinc-900 text-white px-6 py-3 rounded-xl font-black uppercase text-[10px] hover:bg-white hover:text-black transition-all">
-                    <Pencil size={14} /> Edit
-                  </button>
-                  <button onClick={() => handleDelete(item.id)} className="p-3 bg-zinc-900 text-zinc-500 hover:bg-red-500 hover:text-white rounded-xl transition-all">
-                    <Trash2 size={18} />
-                  </button>
+                  <div className="flex items-center gap-3 w-full md:w-auto border-t md:border-t-0 border-white/5 pt-4 md:pt-0">
+                    <button 
+                      onPointerDown={(e) => e.stopPropagation()} // Prevent dragging when clicking buttons
+                      onClick={() => navigate("/admin/interns/add", { state: { editData: item } })} 
+                      className="flex-1 md:flex-none flex items-center justify-center gap-2 bg-zinc-900 text-white px-6 py-3 rounded-xl font-black uppercase text-[10px] hover:bg-white hover:text-black transition-all"
+                    >
+                      <Pencil size={14} /> Edit
+                    </button>
+                    <button 
+                      onPointerDown={(e) => e.stopPropagation()} 
+                      onClick={() => handleDelete(item.id)} 
+                      className="p-3 bg-zinc-900 text-zinc-500 hover:bg-red-500 hover:text-white rounded-xl transition-all"
+                    >
+                      <Trash2 size={18} />
+                    </button>
+                  </div>
                 </div>
-              </div>
+              </Reorder.Item>
             ))}
-          </div>
+          </Reorder.Group>
         )}
       </div>
     </AdminLayout>

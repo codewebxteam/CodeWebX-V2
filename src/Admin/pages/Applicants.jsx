@@ -57,7 +57,7 @@ const Applicants = () => {
             rel="noreferrer" 
             className="flex items-center gap-2 text-[9px] font-black uppercase text-white bg-zinc-900 px-4 py-2 rounded-xl border border-white/5 hover:bg-[#00a63e] hover:border-[#00a63e] transition-all"
           >
-            Review <ExternalLink size={12}/>
+            View Resume <ExternalLink size={12}/>
           </a>,
 
           // 6. Action (Status Toggle + Delete)

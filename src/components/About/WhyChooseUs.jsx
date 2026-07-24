@@ -107,7 +107,7 @@ const WhyChooseUs = () => {
                 className="group-hover:rotate-90 transition-transform duration-500"
               />
               <span className="text-[10px] font-black uppercase tracking-[0.3em]">
-                Get In Touch
+                Start Project
               </span>
             </button>
           </div>

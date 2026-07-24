@@ -112,7 +112,7 @@ const Navbar = () => {
             onClick={() => setIsInquiryOpen(true)}
             className="hidden lg:block bg-white text-black px-6 py-2.5 rounded-full text-[9px] font-black tracking-widest hover:bg-[#00a63e] hover:text-white transition-all active:scale-95"
           >
-            GET IN TOUCH
+            START PROJECT
           </button>
 
           <button 

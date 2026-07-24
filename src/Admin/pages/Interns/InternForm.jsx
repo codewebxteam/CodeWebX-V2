@@ -10,14 +10,13 @@ const InternForm = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const editData = location.state?.editData;
-  const isCertificate = location.state?.type === "certificate" || editData?.certId;
 
   const [formData, setFormData] = useState({
     name: "",
     role: "", 
     image: "",
+    certificateUrl: "",
     duration: "", 
-    linkedin: "",
     certId: "", 
     status: "active" 
   });
@@ -30,17 +29,11 @@ const InternForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Logic: Image mandatory check
-    if (!formData.image) {
-      return alert("Bhai, image upload hone ka intezar karein ya dobara upload karein!");
-    }
-    
-    if (isCertificate && !formData.certId) {
-      return alert("Bhai, Certificate ID zaroori hai!");
-    }
+    // Image is optional now, so no alert check here.
+
 
     setLoading(true);
-    const targetCollection = isCertificate ? "certificates" : "interns";
+    const targetCollection = "interns";
     
     try {
       const payload = { 
@@ -54,7 +47,8 @@ const InternForm = () => {
       } else {
         await addDoc(collection(db, targetCollection), { 
           ...payload, 
-          createdAt: serverTimestamp() 
+          createdAt: serverTimestamp(),
+          order: Date.now() // Default order value for new interns
         });
       }
       navigate("/admin/interns");
@@ -77,26 +71,39 @@ const InternForm = () => {
         </button>
 
         <h2 className="text-5xl font-black uppercase text-white mb-12">
-          {editData ? 'Edit' : 'Add'} <span className="text-[#00a63e]">{isCertificate ? 'Certificate' : 'Intern'}</span>
+          {editData ? 'Edit' : 'Add'} <span className="text-[#00a63e]">Intern</span>
         </h2>
 
         <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-8">
           
           {/* PHOTO UPLOAD SECTION */}
-          <div className="md:col-span-2 space-y-4 bg-zinc-950 p-6 rounded-3xl border border-white/5">
+          <div className="space-y-4 bg-zinc-950 p-6 rounded-3xl border border-white/5">
             <label className="text-[10px] font-black uppercase text-zinc-500 flex items-center gap-2">
-              <User size={14}/> {isCertificate ? 'Alumni Photo (Supports JPG, PNG, WEBP)' : 'Intern Photo (Supports JPG, PNG, WEBP)'}
+              <User size={14}/> Intern Photo (JPG, PNG, WEBP)
             </label>
-            
-            {/* Note: Ensure your ImageUpload component doesn't restrict extensions */}
             <ImageUpload 
               onUploadSuccess={(url) => setFormData({...formData, image: url})} 
-              folder={isCertificate ? "certificates" : "interns"} 
+              folder="interns" 
             />
-            
             {formData.image && (
                <p className="text-[9px] text-[#00a63e] font-bold uppercase tracking-widest">
-                 ✅ Image Ready for saving
+                 ✅ Photo Ready
+               </p>
+            )}
+          </div>
+
+          {/* CERTIFICATE UPLOAD SECTION */}
+          <div className="space-y-4 bg-zinc-950 p-6 rounded-3xl border border-white/5">
+            <label className="text-[10px] font-black uppercase text-zinc-500 flex items-center gap-2">
+              <User size={14}/> Certificate File (PDF, JPG, PNG)
+            </label>
+            <ImageUpload 
+              onUploadSuccess={(url) => setFormData({...formData, certificateUrl: url})} 
+              folder="certificates" 
+            />
+            {formData.certificateUrl && (
+               <p className="text-[9px] text-[#00a63e] font-bold uppercase tracking-widest">
+                 ✅ Certificate Ready
                </p>
             )}
           </div>
@@ -125,39 +132,26 @@ const InternForm = () => {
             />
           </div>
 
-          {isCertificate ? (
-             <div className="space-y-2">
-                <label className="text-[10px] font-black uppercase text-zinc-500 ml-2">Certificate ID</label>
-                <input 
-                  type="text" 
-                  value={formData.certId} 
-                  required 
-                  placeholder="CWX-26-01" 
-                  className="w-full bg-zinc-950 border border-white/5 p-5 rounded-2xl text-white font-bold outline-none focus:border-[#00a63e]" 
-                  onChange={(e) => setFormData({...formData, certId: e.target.value})} 
-                />
-             </div>
-          ) : (
-            <div className="space-y-2">
-                <label className="text-[10px] font-black uppercase text-zinc-500 ml-2">Duration</label>
-                <input 
-                  type="text" 
-                  value={formData.duration} 
-                  placeholder="Feb 2026 - Aug 2026" 
-                  className="w-full bg-zinc-950 border border-white/5 p-5 rounded-2xl text-white font-bold outline-none focus:border-[#00a63e]" 
-                  onChange={(e) => setFormData({...formData, duration: e.target.value})} 
-                />
-            </div>
-          )}
+          <div className="space-y-2">
+            <label className="text-[10px] font-black uppercase text-zinc-500 ml-2">Duration</label>
+            <input 
+              type="text" 
+              value={formData.duration} 
+              placeholder="Feb 2026 - Aug 2026" 
+              className="w-full bg-zinc-950 border border-white/5 p-5 rounded-2xl text-white font-bold outline-none focus:border-[#00a63e]" 
+              onChange={(e) => setFormData({...formData, duration: e.target.value})} 
+            />
+          </div>
 
           <div className="space-y-2">
-            <label className="text-[10px] font-black uppercase text-zinc-500 ml-2">LinkedIn URL</label>
+            <label className="text-[10px] font-black uppercase text-zinc-500 ml-2">Certificate ID (Required)</label>
             <input 
-              type="url" 
-              value={formData.linkedin} 
-              placeholder="https://linkedin.com/..." 
+              type="text" 
+              value={formData.certId} 
+              required
+              placeholder="CWX-26-01" 
               className="w-full bg-zinc-950 border border-white/5 p-5 rounded-2xl text-white font-bold outline-none focus:border-[#00a63e]" 
-              onChange={(e) => setFormData({...formData, linkedin: e.target.value})} 
+              onChange={(e) => setFormData({...formData, certId: e.target.value})} 
             />
           </div>
 
@@ -166,7 +160,7 @@ const InternForm = () => {
             disabled={loading} 
             className="md:col-span-1 py-6 bg-[#00a63e] text-white rounded-2xl font-black uppercase text-[11px] flex items-center justify-center gap-3 hover:bg-white hover:text-black transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {loading ? <Loader2 className="animate-spin" /> : <>{isCertificate ? 'Issue Certificate' : 'Save Intern'} <Send size={16} /></>}
+            {loading ? <Loader2 className="animate-spin" /> : <>Save Intern <Send size={16} /></>}
           </button>
         </form>
       </div>

@@ -56,7 +56,7 @@ const LoginPage = () => {
                 type="email" 
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="admin@codewebx.in"
+                placeholder="admin@gmail.com"
                 className="w-full bg-black border border-white/5 p-4 pl-12 rounded-2xl text-xs font-bold text-white outline-none focus:border-[#00a63e] focus:bg-zinc-900/50 transition-all placeholder:text-zinc-800"
                 required 
               />

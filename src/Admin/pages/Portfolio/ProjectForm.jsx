@@ -54,7 +54,8 @@ const ProjectForm = () => {
         // ADD NEW PROJECT
         await addDoc(collection(db, "projects"), {
           ...payload,
-          createdAt: serverTimestamp()
+          createdAt: serverTimestamp(),
+          order: Date.now()
         });
         alert("Project Deployed Successfully!");
       }

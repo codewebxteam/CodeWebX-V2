@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import { Upload, X, Image as ImageIcon, Loader2, CheckCircle2 } from "lucide-react";
+import { Upload, X, Image as ImageIcon, Loader2, CheckCircle2, FileText } from "lucide-react";
 
 const ImageUpload = ({ onUploadSuccess, folder = "general" }) => {
   const [loading, setLoading] = useState(false);
   const [preview, setPreview] = useState(null);
+  const [fileType, setFileType] = useState(null);
+  const [fileName, setFileName] = useState("");
   const [uploadDone, setUploadDone] = useState(false);
 
   const handleFileChange = async (e) => {
@@ -17,30 +19,37 @@ const ImageUpload = ({ onUploadSuccess, folder = "general" }) => {
     }
 
     setPreview(URL.createObjectURL(file));
+    setFileType(file.type);
+    setFileName(file.name);
     setLoading(true);
     setUploadDone(false);
 
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("upload_preset", import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET);
-    formData.append("folder", `codewebx/${folder}`);
+    formData.append("fileName", file.name);
+    formData.append("folder", `/codewebx/${folder}`);
 
     try {
-      const res = await fetch(
-        `https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUDINARY_CLOUD_NAME}/image/upload`,
-        { method: "POST", body: formData }
-      );
+      const authHeader = `Basic ${btoa(import.meta.env.VITE_IMAGEKIT_PRIVATE_KEY + ":")}`;
+      
+      const res = await fetch("https://upload.imagekit.io/api/v1/files/upload", {
+        method: "POST",
+        headers: {
+          "Authorization": authHeader,
+        },
+        body: formData,
+      });
       const data = await res.json();
       
-      if (data.secure_url) {
-        onUploadSuccess(data.secure_url);
+      if (data.url) {
+        onUploadSuccess(data.url);
         setUploadDone(true);
       } else {
-        throw new Error(data.error?.message || "Upload Failed");
+        throw new Error(data.message || "Upload Failed");
       }
     } catch (error) {
-      console.error("Cloudinary Error:", error);
-      alert("Cloudinary Sync Failed! Check your internet or format.");
+      console.error("ImageKit Error:", error);
+      alert("Image Upload Failed! Check your internet or format.");
     } finally {
       setLoading(false);
     }
@@ -53,13 +62,18 @@ const ImageUpload = ({ onUploadSuccess, folder = "general" }) => {
       {preview ? (
         // FIXED: Flex container for centered image that never crops.
         <div className="w-full flex flex-col items-center justify-center relative">
-          <img 
-            src={preview} 
-            alt="Preview" 
-            // FIXED: Removed object-cover, added object-contain, h-auto, max-h-96 for control.
-            // This ensures the image is never cropped from top or bottom.
-            className={`w-auto h-auto max-w-full max-h-96 object-contain rounded-2xl transition-all ${loading ? "opacity-20 blur-sm" : "opacity-40"}`} 
-          />
+          {fileType === "application/pdf" ? (
+            <div className={`w-full h-40 flex flex-col items-center justify-center bg-zinc-900 rounded-2xl transition-all ${loading ? "opacity-20 blur-sm" : "opacity-100"}`}>
+              <FileText size={48} className="text-red-500 mb-2" />
+              <p className="text-white text-xs font-bold text-center px-4 truncate max-w-full">{fileName}</p>
+            </div>
+          ) : (
+            <img 
+              src={preview} 
+              alt="Preview" 
+              className={`w-auto h-auto max-w-full max-h-96 object-contain rounded-2xl transition-all ${loading ? "opacity-20 blur-sm" : "opacity-40"}`} 
+            />
+          )}
           
           {/* Overlay elements (Loader, Success check, Delete button) */}
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-2">
@@ -80,6 +94,8 @@ const ImageUpload = ({ onUploadSuccess, folder = "general" }) => {
               // Memory cleanup
               URL.revokeObjectURL(preview);
               setPreview(null); 
+              setFileType(null);
+              setFileName("");
               setUploadDone(false);
             }} 
             className="absolute top-0 right-0 p-2 bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white rounded-xl transition-all z-10"
@@ -95,13 +111,13 @@ const ImageUpload = ({ onUploadSuccess, folder = "general" }) => {
           </div>
           <div className="text-center px-4">
             <p className="text-[9px] font-black uppercase tracking-[0.3em] text-zinc-600 mb-1">Select Media Source</p>
-            <p className="text-[7px] font-bold text-zinc-700 uppercase tracking-widest">Supports: JPG, PNG, WEBP, AVIF</p>
+            <p className="text-[7px] font-bold text-zinc-700 uppercase tracking-widest">Supports: JPG, PNG, WEBP, AVIF, PDF</p>
           </div>
           <input 
             type="file" 
             className="hidden" 
             onChange={handleFileChange} 
-            accept=".jpg, .jpeg, .png, .webp, .avif, image/*" 
+            accept=".jpg, .jpeg, .png, .webp, .avif, .pdf, image/*, application/pdf" 
           />
         </label>
       )}
