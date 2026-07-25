@@ -11,25 +11,13 @@ const TeamSection = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Set initial visible count based on screen size (3 for mobile, 7 for desktop)
-    const handleResize = () => {
-      if (window.innerWidth < 768 && visibleCount === 7) {
-        setVisibleCount(3);
-      } else if (window.innerWidth >= 768 && visibleCount === 3) {
-        setVisibleCount(7);
-      }
-    };
-    
-    // Run once on mount
+    // Run once on mount to set initial visible count (3 for mobile, 7 for desktop)
     if (window.innerWidth < 768) {
       setVisibleCount(3);
     } else {
       setVisibleCount(7);
     }
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []); // Only run once on mount for resize listener
+  }, []);
 
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, "interns"), (snapshot) => {
