@@ -31,7 +31,6 @@ const ImageUpload = ({ onUploadSuccess, folder = "general" }) => {
 
     try {
       const authHeader = `Basic ${btoa(import.meta.env.VITE_IMAGEKIT_PRIVATE_KEY + ":")}`;
-      
       const res = await fetch("https://upload.imagekit.io/api/v1/files/upload", {
         method: "POST",
         headers: {

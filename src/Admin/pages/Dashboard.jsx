@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import AdminLayout from "../components/AdminLayout";
 import { db } from "../../firebase";
-import { collection, query, orderBy, onSnapshot, limit } from "firebase/firestore";
+import { collection, query, orderBy, onSnapshot, limit, doc } from "firebase/firestore";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { 
@@ -24,6 +24,7 @@ const Dashboard = () => {
     activeProjects: 0,
     totalInterns: 0
   });
+  const [liveViews, setLiveViews] = useState({ total: 0, work: 0, careers: 0 });
 
   useEffect(() => {
     // 1. RECENT INQUIRIES (Last 3 Records)
@@ -60,6 +61,18 @@ const Dashboard = () => {
       setStats(prev => ({ ...prev, totalInterns: snap.size }));
     });
 
+    // Live Views Sync
+    const unsubViews = onSnapshot(doc(db, "analytics", "pageViews"), (docSnap) => {
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        setLiveViews({
+          total: data.total || 0,
+          work: data.work || 0,
+          careers: data.careers || 0
+        });
+      }
+    });
+
     // Clean up all listeners when component unmounts
     return () => {
       unsubInquiries();
@@ -67,6 +80,7 @@ const Dashboard = () => {
       unsubAppCount();
       unsubProjCount();
       unsubInternCount();
+      unsubViews();
     };
   }, []);
 
@@ -132,10 +146,17 @@ const Dashboard = () => {
             onClick={() => navigate("/admin/portfolio")} 
           />
           <StatTile 
-            label="Success Rate" 
-            value="100%" 
+            label={
+              <span className="flex flex-col gap-1.5 mt-1">
+                <span>Live Count</span>
+                <span className="text-[#00a63e] flex items-center gap-2">
+                  Work: {liveViews.work} <span className="w-1 h-1 bg-zinc-700 rounded-full"></span> Carriers: {liveViews.careers}
+                </span>
+              </span>
+            }
+            value={liveViews.total} 
             icon={<TrendingUp size={20} />} 
-            trend="Optimal" 
+            trend="Active Viewers" 
           />
         </div>
 
@@ -239,7 +260,7 @@ const StatTile = ({ label, value, icon, trend, onClick }) => (
       </div>
       <div className="text-left">
         <h3 className="text-4xl md:text-5xl font-black text-white tracking-tighter mb-1">{value}</h3>
-        <p className="text-zinc-600 text-[10px] font-black uppercase tracking-widest">{label}</p>
+        <div className="text-zinc-600 text-[10px] font-black uppercase tracking-widest">{label}</div>
       </div>
     </div>
     <div className="absolute -bottom-4 -right-4 text-white/[0.02] group-hover:text-[#00a63e]/5 transition-all duration-700 pointer-events-none">

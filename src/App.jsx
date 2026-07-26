@@ -6,6 +6,8 @@ import {
   useLocation,
 } from "react-router-dom";
 import Lenis from "@studio-freight/lenis";
+import { db } from "./firebase";
+import { doc, setDoc, increment } from "firebase/firestore";
 
 // --- MAIN SITE COMPONENTS ---
 import Navbar from "./components/Common/Navbar";
@@ -58,6 +60,32 @@ const AppContent = () => {
   // --- EVENT POPUP TOGGLE ---
   // Yahan true ya false likhein popup ko dikhane ya chhupane ke liye
   const showEventPopup = false;
+
+  // --- ANALYTICS TRACKING ---
+  useEffect(() => {
+    if (isAdminPath) return; // Do not track admin routes
+
+    const trackView = async () => {
+      try {
+        const docRef = doc(db, "analytics", "pageViews");
+        const updates = { total: increment(1) };
+        
+        if (location.pathname === "/works") {
+          updates.work = increment(1);
+        } else if (location.pathname === "/careers") {
+          updates.careers = increment(1);
+        }
+        
+        await setDoc(docRef, updates, { merge: true });
+      } catch (err) {
+        console.error("Error tracking view:", err);
+      }
+    };
+
+    // Slight delay to ensure it doesn't block critical rendering
+    const timer = setTimeout(trackView, 1000);
+    return () => clearTimeout(timer);
+  }, [location.pathname, isAdminPath]);
 
   // --- CRITICAL FIX: Kill Lenis on Admin Routes ---
   useEffect(() => {
